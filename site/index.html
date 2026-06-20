@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Agent Arena — Self-Hosted AI Agent Platform Comparison</title>
-<meta name="description" content="A continuously-updated comparison of self-hosted (and notable paid) AI coding-agent platforms — GitHub sync, one-click shell, multi-model, multi-login." />
+<meta name="description" content="A continuously-updated comparison of self-hosted (and notable paid) AI coding-agent platforms — GitHub sync, one-click shell, multi-model, multi-login, mobile access." />
 <style>
   :root{
     --bg:#0a0d14; --panel:#10141f; --panel2:#141a27; --line:#222a3a;
@@ -21,7 +21,7 @@
     -webkit-font-smoothing:antialiased}
   a{color:var(--accentB);text-decoration:none}
   a:hover{text-decoration:underline}
-  .wrap{max-width:1500px;margin:0 auto;padding:0 20px}
+  .wrap{max-width:1620px;margin:0 auto;padding:0 20px}
 
   /* hero */
   header.hero{padding:54px 0 26px}
@@ -64,7 +64,7 @@
   /* table */
   .tablecard{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
   .scroll{overflow-x:auto}
-  table{border-collapse:separate;border-spacing:0;width:100%;min-width:1180px}
+  table{border-collapse:separate;border-spacing:0;width:100%;min-width:1320px}
   thead th{position:sticky;top:0;z-index:3;background:#0e1320;color:var(--mut);font-size:11.5px;
     letter-spacing:.06em;text-transform:uppercase;text-align:center;padding:13px 10px;font-weight:700;
     border-bottom:1px solid var(--line);white-space:nowrap}
@@ -95,7 +95,7 @@
   .cprice{font-size:11px;color:var(--mut2)}
 
   .cell{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
-  .cnote{font-size:11px;color:var(--mut2);max-width:130px;line-height:1.35}
+  .cnote{font-size:11px;color:var(--mut2);max-width:132px;line-height:1.35}
   .agents{text-align:left;min-width:150px;color:var(--txt);font-size:13px}
   .agents .cnt{font-size:11px;color:var(--accentB);font-weight:700}
   .deploy{text-align:left;min-width:150px;color:var(--mut);font-size:12.5px;line-height:1.4}
@@ -104,8 +104,6 @@
   footer{color:var(--mut);font-size:13px;padding:34px 0 60px;line-height:1.7}
   footer .src{color:var(--mut2);font-size:12px}
   .hr{height:1px;background:var(--line);margin:30px 0}
-  .pill{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:8px;
-    padding:2px 8px;font-size:12px;color:var(--mut);margin:2px}
 
   @media(max-width:680px){
     header.hero{padding:34px 0 18px}
@@ -120,13 +118,13 @@
   <header class="hero">
     <span class="eyebrow"><span class="dot"></span> Updated June 20, 2026 · live comparison</span>
     <h1>The self-hosted <span class="g">AI agent platform</span> arena</h1>
-    <p class="sub">One window for everything — open an interactive shell, pull a GitHub issue, run any agent CLI, ship a PR. Ranked by how well each tool delivers a <b>single integrated workflow</b> (no jumping to a separate terminal), with first-class GitHub sync and freedom to mix models &amp; logins.</p>
+    <p class="sub">One window for everything — open an interactive shell, pull a GitHub issue, run any agent CLI, ship a PR. Ranked by how well each tool delivers a <b>single integrated workflow</b> (no jumping to a separate terminal), with first-class GitHub sync and freedom to mix models, logins &amp; devices.</p>
 
     <div class="musts">
       <div class="must"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6ee7b7" stroke-width="2"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg> <b>One-click shell</b> — not a separate terminal</div>
       <div class="must"><svg width="18" height="18" viewBox="0 0 24 24" fill="#5b9dff"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 .1.8 1.2.8 1.2.6-1.6 2.6-1.5 2.9-1.1.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg> <b>GitHub</b> — issues sync, PRs &amp; push</div>
       <div class="must"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6v6H9z"/></svg> <b>Beyond Claude &amp; Codex</b> — many agents</div>
-      <div class="must"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2"><path d="M12 2a5 5 0 015 5v3a5 5 0 01-10 0V7a5 5 0 015-5z"/><path d="M5 21h14"/></svg> <b>Multiple logins</b> — per-client subscriptions</div>
+      <div class="must"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 19h2"/></svg> <b>Mobile</b> — Android / iPhone access</div>
     </div>
   </header>
 
@@ -135,6 +133,7 @@
       <button class="fbtn on" data-f="all">All</button>
       <button class="fbtn" data-f="free">Free / Open-source</button>
       <button class="fbtn" data-f="paid">Paid</button>
+      <button class="fbtn" data-f="mobile">Has mobile</button>
       <button class="fbtn" data-f="lab">In my lab</button>
     </div>
     <div class="search"><input id="q" type="search" placeholder="Search platforms…" /></div>
@@ -163,6 +162,7 @@
             <th>One-click<br>shell</th>
             <th class="l">Agents / models</th>
             <th>Multiple<br>logins</th>
+            <th>Mobile<br>app / web</th>
             <th class="l">Deploy / fleet</th>
             <th class="l">Bottom line</th>
           </tr>
@@ -173,14 +173,13 @@
   </div>
 
   <footer>
-    <p><b style="color:#fff">How this is ranked.</b> Order reflects one workflow above all: a single tool where you open a real shell, intake a GitHub issue, run the agent of your choice, and push a PR — without tab-hopping. Tools with no human shell drop, however strong their orchestration. “Multiple logins” = can you isolate separate Claude/agent subscriptions or accounts per project (e.g. a client's plan vs. your own) — marked <span class="mark mk-y" style="width:18px;height:18px">✓</span> where per-task/workspace isolation makes it practical, <span class="mark mk-p" style="width:18px;height:18px">~</span> where partial/undocumented.</p>
+    <p><b style="color:#fff">How this is ranked.</b> Order reflects one workflow above all: a single tool where you open a real shell, intake a GitHub issue, run the agent of your choice, and push a PR — without tab-hopping. Tools with no human shell drop, however strong their orchestration. “Multiple logins” = can you isolate separate Claude/agent subscriptions per project (e.g. a client's plan vs. your own). <b style="color:#fff">Mobile</b> column: <span class="mark mk-y" style="width:18px;height:18px">✓</span> dedicated app or mobile-first experience (note says iOS/Android) · <span class="mark mk-p" style="width:18px;height:18px">~</span> usable from a mobile browser or chat app, no native app · <span class="mark mk-n" style="width:18px;height:18px">–</span> desktop / SSH only.</p>
     <div class="hr"></div>
     <p class="src">Ratings from official docs &amp; repos checked June 20, 2026; “–”/“~” used instead of guessing. GitHub Projects = GitHub's boards, not a product's internal Kanban. Prices are list-price estimates and change often — verify before buying. This is a personal, independent comparison, free to share. <span id="count"></span></p>
   </footer>
 </div>
 
 <script>
-const Y={s:'yes'},P={s:'partial'},N={s:'no'};
 function c(s,note){return {s,note:note||''}}
 const PLATFORMS=[
  {name:'Emdash',url:'https://emdash.sh',link:'emdash.sh',lab:false,
@@ -189,6 +188,7 @@ const PLATFORMS=[
   shell:c('yes','Integrated terminals; remote = SSH PTY'),
   agents:'Claude, Codex, Gemini, OpenCode, Kilo + many more',agentsCnt:'31 CLIs',agentsBeyond:'yes',
   multi:c('yes','In-app browser keeps separate login profiles; per-task isolation'),
+  mobile:c('no','Desktop app only (Mac/Win/Linux)'),
   deploy:'Desktop app · local + remote SSH + provisioned workspaces · multi-host',
   verdict:'Best overall fit — agent, diff, editor, terminal & in-app browser in one window. Gaps: desktop (not browser) control plane; no Projects sync.'},
 
@@ -198,6 +198,7 @@ const PLATFORMS=[
   shell:c('yes','Built-in terminals; remote daemon control'),
   agents:'Dozens of coding-agent CLIs',agentsCnt:'dozens',agentsBeyond:'yes',
   multi:c('partial','Per-host config'),
+  mobile:c('yes','Mobile client (iOS/Android) + desktop/web/CLI'),
   deploy:'Local daemon + desktop/mobile/web/CLI · remote daemons',
   verdict:'Very close on shell, models and hosts. GitHub issue/project sync is the weak spot.'},
 
@@ -207,6 +208,7 @@ const PLATFORMS=[
   shell:c('yes','Full multi-tab xterm.js terminal'),
   agents:'Claude, Codex, Gemini, Cursor, OpenCode',agentsCnt:'5+',agentsBeyond:'yes',
   multi:c('partial','Per-project config'),
+  mobile:c('yes','Mobile-optimized web UI (use on the go)'),
   deploy:'Lightweight web UI · one per host · no central fleet',
   verdict:'Best lightweight browser demo; excellent shell. Fleet management is the gap.'},
 
@@ -216,6 +218,7 @@ const PLATFORMS=[
   shell:c('yes','Integrated full PTY xterm terminals'),
   agents:'Claude, Codex, OpenCode (Anthropic/Bedrock/OpenAI-compat)',agentsCnt:'3+',agentsBeyond:'yes',
   multi:c('partial','Per-worker config'),
+  mobile:c('yes','Mobile client (+ desktop)'),
   deploy:'Self-hosted worker + desktop/mobile client · one client → many workers',
   verdict:'Strong shell + multi-host candidate. Main gap is GitHub sync; project is very new.'},
 
@@ -225,6 +228,7 @@ const PLATFORMS=[
   shell:c('yes','Browser terminal + normal SSH'),
   agents:'Terminal/MCP agents, built-in modules, custom agents',agentsCnt:'broad',agentsBeyond:'yes',
   multi:c('yes','Per-workspace env/secrets isolate credentials'),
+  mobile:c('partial','Web (responsive); no native app'),
   deploy:'Self-hosted control plane · provisioned workspaces across infra',
   verdict:'Best shell + infrastructure platform. Heavier setup, less issue-centric.'},
 
@@ -234,6 +238,7 @@ const PLATFORMS=[
   shell:c('yes','Full xterm.js browser terminal, multi-view, persistent'),
   agents:'Claude CLI only',agentsCnt:'Claude-only',agentsBeyond:'no',
   multi:c('partial','Per-worker'),
+  mobile:c('partial','Mobile browser terminal'),
   deploy:'Docker control plane + agent per worker · distributed, NAT-friendly',
   verdict:'Best true browser shell/fleet newcomer. Major drawback: Claude-only & very young.'},
 
@@ -243,6 +248,7 @@ const PLATFORMS=[
   shell:c('yes','Terminal + editor + files + diffs + Git in one'),
   agents:'Claude, Codex, Copilot, Cursor, OpenCode',agentsCnt:'5+',agentsBeyond:'yes',
   multi:c('yes','Per-sandbox isolation (Docker/host)'),
+  mobile:c('partial','Web (responsive); desktop app too'),
   deploy:'Docker web app · primarily single-host workspaces/sandboxes',
   verdict:'Promising all-in-one workspace. Young — maintainers warn of breaking changes.'},
 
@@ -252,6 +258,7 @@ const PLATFORMS=[
   shell:c('yes','Mobile-first, multi-pane terminals'),
   agents:'Claude, Codex, OpenCode, Kilo, Gemini, Aider, Cursor, Amp, Pi + more',agentsCnt:'9+',agentsBeyond:'yes',
   multi:c('partial','Per-session'),
+  mobile:c('yes','Mobile-first web (PWA) — designed for phones'),
   deploy:'Self-hosted web + optional desktop wrapper · one server per machine',
   verdict:'Good mobile shell. Weak point is external issue/project sync.'},
 
@@ -261,6 +268,7 @@ const PLATFORMS=[
   shell:c('partial','Terminal-native; not a central remote-shell dashboard'),
   agents:'Any of 75+ providers incl. free & local models',agentsCnt:'75+ providers',agentsBeyond:'yes',
   multi:c('partial','Per-project auth file'),
+  mobile:c('partial','Mobile browser (web UI) / terminal'),
   deploy:'Install per machine · no native central fleet plane',
   verdict:'Excellent runtime + GitHub issue worker. It is an agent, not a fleet manager by itself.'},
 
@@ -270,6 +278,7 @@ const PLATFORMS=[
   shell:c('partial','CLI + browser Console; not a remote-server shell'),
   agents:'Hundreds of models, BYOK + local',agentsCnt:'100s of models',agentsBeyond:'yes',
   multi:c('yes','BYOK per workspace'),
+  mobile:c('partial','Cloud web console in mobile browser'),
   deploy:'CLI / IDE components + hosted cloud control',
   verdict:'Best model freedom + GitHub issue workflow. Does not solve the server-shell need.'},
 
@@ -279,6 +288,7 @@ const PLATFORMS=[
   shell:c('yes','Full terminal inside isolated environments'),
   agents:'Any harness — Claude, Codex, OpenCode, Copilot',agentsCnt:'any',agentsBeyond:'yes',
   multi:c('yes','Isolated Kata microVMs per env'),
+  mobile:c('no','SSH client only (Tailscale)'),
   deploy:'k3s + Kata microVMs + Tailscale · advanced homelab stack',
   verdict:'Powerful but complex — more cloud-agent lab than a simple fleet manager.'},
 
@@ -288,6 +298,7 @@ const PLATFORMS=[
   shell:c('partial','CLI/TUI + local web dashboard; not a server shell'),
   agents:'Model-agnostic (OpenRouter or direct: Claude, GPT, local…)',agentsCnt:'many',agentsBeyond:'yes',
   multi:c('partial','Profiles/secrets per instance'),
+  mobile:c('partial','Drive via Telegram / WhatsApp / Slack + web dashboard'),
   deploy:'Per-machine CLI + dashboard · self-improving memory/skills',
   verdict:'Self-improving agent with long-term memory. Messaging-gateway focus, not a shell fleet.'},
 
@@ -297,6 +308,7 @@ const PLATFORMS=[
   shell:c('no','No human SSH/interactive shell in the GUI'),
   agents:'Claude, Codex, Gemini, Cursor, Copilot, OpenCode, Kiro, Kimi + more',agentsCnt:'8+',agentsBeyond:'yes',
   multi:c('partial','Per-runtime'),
+  mobile:c('partial','Web (responsive)'),
   deploy:'Web control plane + daemons on your machines · multi-machine',
   verdict:'Excellent fleet orchestration — but the missing human shell is the deal-breaker.'},
 
@@ -306,6 +318,7 @@ const PLATFORMS=[
   shell:c('no','No human terminal; external agents execute'),
   agents:'Any agent/provider/runtime via adapters',agentsCnt:'any',agentsBeyond:'yes',
   multi:c('yes','Per-agent runtime + secrets'),
+  mobile:c('partial','Web (responsive) control plane'),
   deploy:'Node/React control plane · agents run anywhere via heartbeats',
   verdict:'Great business-agent orchestrator (org chart of AI staff). Not a coding shell.'},
 
@@ -315,6 +328,7 @@ const PLATFORMS=[
   shell:c('yes','Workspace terminal + dev server'),
   agents:'Claude, Codex, Gemini, Copilot, Cursor, OpenCode, Qwen +',agentsCnt:'10+',agentsBeyond:'yes',
   multi:c('partial'),
+  mobile:c('partial','Web (responsive)'),
   deploy:'Local / self-hosted · mainly workspace-based',
   verdict:'Feature-rich but sunsetting — don’t build a long-term workflow around it.'},
 
@@ -324,6 +338,7 @@ const PLATFORMS=[
   shell:c('partial','Central gateway routes sessions/tools/channels'),
   agents:'Model-agnostic; thousands of pre-built tools/workflows',agentsCnt:'many',agentsBeyond:'yes',
   multi:c('partial'),
+  mobile:c('partial','Via chat channels (Slack/Telegram/…)'),
   deploy:'Central gateway/controller (one long-running process) · broad connectors',
   verdict:'Huge batteries-included connector ecosystem, but frequent updates break instances.'},
 
@@ -333,6 +348,7 @@ const PLATFORMS=[
   shell:c('partial','Agent-session terminal, not a general shell'),
   agents:'Claude-centric (legacy: Claude/Codex)',agentsCnt:'few',agentsBeyond:'partial',
   multi:c('partial'),
+  mobile:c('yes','iOS + Android app (monitor/control from phone)'),
   deploy:'Local executable + service · multiple machines/sessions',
   verdict:'Not a strong fit now — direction moved away from the open wrapper model.'},
 
@@ -342,6 +358,7 @@ const PLATFORMS=[
   shell:c('partial','Its own cloud workspace shell, not your servers'),
   agents:'Devin’s own proprietary agent',agentsCnt:'1',agentsBeyond:'no',
   multi:c('no'),
+  mobile:c('partial','Web + Slack (drive from phone)'),
   deploy:'Cloud SaaS — not self-hosted',
   verdict:'Autonomous cloud engineer. Polished, but single proprietary agent and not self-hosted.'},
 
@@ -351,6 +368,7 @@ const PLATFORMS=[
   shell:c('partial','In-IDE terminal + cloud agents'),
   agents:'Cursor models + some BYOK',agentsCnt:'few',agentsBeyond:'partial',
   multi:c('no'),
+  mobile:c('partial','Mobile web for background agents'),
   deploy:'Desktop IDE + cloud — not self-hosted/fleet',
   verdict:'Polished IDE with cloud background agents. Not self-hosted; not a server-shell fleet.'},
 ];
@@ -365,7 +383,7 @@ function costCell(c){
   return `<div class="cost"><span class="ct ${c.t}">${c.label}</span><span class="cprice">${c.price}</span></div>`;
 }
 function render(list){
-  const rows=list.map((p,i)=>{
+  const rows=list.map((p)=>{
     const realRank=PLATFORMS.indexOf(p)+1;
     const lab=p.lab?'<span class="badge b-lab">in my lab</span>':'';
     const agentsBeyond=p.agentsBeyond==='no'?'<span class="mark mk-n" style="width:18px;height:18px;display:inline-flex">–</span> '
@@ -382,6 +400,7 @@ function render(list){
       <td>${mark(p.shell)}</td>
       <td class="agents">${agentsBeyond}${p.agents}<div class="cnt">${p.agentsCnt}</div></td>
       <td>${mark(p.multi)}</td>
+      <td>${mark(p.mobile)}</td>
       <td class="deploy">${p.deploy}</td>
       <td class="verdict">${p.verdict}</td>
     </tr>`;
@@ -395,7 +414,8 @@ function apply(){
     if(curFilter==='free'&&p.cost.t==='paid')return false;
     if(curFilter==='paid'&&p.cost.t!=='paid')return false;
     if(curFilter==='lab'&&!p.lab)return false;
-    if(curQ&&!(p.name+' '+p.agents+' '+p.verdict).toLowerCase().includes(curQ))return false;
+    if(curFilter==='mobile'&&p.mobile.s==='no')return false;
+    if(curQ&&!(p.name+' '+p.agents+' '+p.verdict+' '+p.mobile.note).toLowerCase().includes(curQ))return false;
     return true;
   });
   render(list);
