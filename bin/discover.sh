@@ -53,6 +53,13 @@ EOF
   before=$(grep -c "name:'" "$REPO/site/index.html" 2>/dev/null || echo '?')
   echo "platforms before: $before"
   timeout 1200 claude -p "$PROMPT" --dangerously-skip-permissions 2>&1
+  # keep README.md (the GitHub-rendered chart) in sync with the data, then push if changed
+  node "$REPO/bin/gen-readme.js" 2>&1 || true
+  if ! git -C "$REPO" diff --quiet README.md 2>/dev/null; then
+    git -C "$REPO" add README.md
+    git -C "$REPO" -c user.email=jrdevelopr@gmail.com -c user.name=jrdevelopr commit -q -m "Regenerate README from updated platform data" 2>/dev/null
+    git -C "$REPO" push origin main 2>/dev/null && echo "README regenerated + pushed"
+  fi
   after=$(grep -c "name:'" "$REPO/site/index.html" 2>/dev/null || echo '?')
   echo "platforms after: $after"
   echo "================ done $(date) ================"
