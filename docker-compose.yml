@@ -1,0 +1,13 @@
+name: agents
+services:
+  web:
+    image: caddy:2-alpine
+    container_name: agents-web
+    restart: unless-stopped
+    command: caddy file-server --root /srv --listen :80
+    volumes:
+      - ./site:/srv:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "0.0.0.0:8088:80"
