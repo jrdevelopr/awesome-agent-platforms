@@ -11,6 +11,9 @@ const arr=JSON.parse(html.match(/const PLATFORMS=(\[[\s\S]*?\n\]);/)[1]);
 // TOOLS may be a hand-written JS literal (unquoted keys) on first run, or JSON after we
 // rewrite it — eval handles both. (Trusted local source file.)
 const tarr=(()=>{const m=html.match(/const TOOLS=(\[[\s\S]*?\n\]);/);return m?Function('return ('+m[1]+')')():null;})();
+// PROVIDERS: same tolerant eval-parse (JS literal or JSON) — kept local so the weekly
+// discover cron never hotlinks a newly-added provider's icon.
+const parr=(()=>{const m=html.match(/const PROVIDERS=(\[[\s\S]*?\n\]);/);return m?Function('return ('+m[1]+')')():null;})();
 
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 // map true content-type -> file extension. Naming the saved file by DETECTED mime
@@ -78,6 +81,7 @@ function processList(list,label){
 }
 processList(arr,'PLATFORMS');
 if(tarr)processList(tarr,'TOOLS');
+if(parr)processList(parr,'PROVIDERS');
 
 const litP='[\n'+arr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
 html=html.replace(/const PLATFORMS=\[[\s\S]*?\n\];/,'const PLATFORMS='+litP+';');
@@ -85,5 +89,9 @@ if(tarr){
   const litT='[\n'+tarr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
   html=html.replace(/const TOOLS=\[[\s\S]*?\n\];/,'const TOOLS='+litT+';');
 }
+if(parr){
+  const litR='[\n'+parr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
+  html=html.replace(/const PROVIDERS=\[[\s\S]*?\n\];/,'const PROVIDERS='+litR+';');
+}
 fs.writeFileSync(FILE,html);
-console.log(`\nReal favicons: ${fetched} · SVG fallbacks: ${svg} · platforms ${arr.length}${tarr?` · tools ${tarr.length}`:''}`);
+console.log(`\nReal favicons: ${fetched} · SVG fallbacks: ${svg} · platforms ${arr.length}${tarr?` · tools ${tarr.length}`:''}${parr?` · providers ${parr.length}`:''}`);

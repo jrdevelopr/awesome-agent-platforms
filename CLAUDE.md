@@ -40,7 +40,7 @@ The page is a **tabbed UI** (`.tabs` bar; `#view-platforms` / `#view-tools` sect
   - Hermes Agent stays on the **Platforms** tab (it's a full agent, not an add-on) — not duplicated.
 
 ## Icons
-`bin/fetch-icons.js` fetches favicons for **both** `PLATFORMS` and `TOOLS` (GitHub org/`github.io`
+`bin/fetch-icons.js` fetches favicons for **all three** arrays — `PLATFORMS`, `TOOLS` and `PROVIDERS` (GitHub org/`github.io`
 avatar for repo-hosted, site favicon else, SVG lettered-tile fallback). **It names each file by its
 TRUE mime type** (e.g. an SVG served at `/favicon.ico` is saved `.svg`, not `.ico`) so the browser
 never gets a content-type mismatch. All icons are stored locally under `site/icons/` — **never
