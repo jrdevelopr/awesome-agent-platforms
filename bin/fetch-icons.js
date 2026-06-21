@@ -14,6 +14,9 @@ const tarr=(()=>{const m=html.match(/const TOOLS=(\[[\s\S]*?\n\]);/);return m?Fu
 // PROVIDERS: same tolerant eval-parse (JS literal or JSON) — kept local so the weekly
 // discover cron never hotlinks a newly-added provider's icon.
 const parr=(()=>{const m=html.match(/const PROVIDERS=(\[[\s\S]*?\n\]);/);return m?Function('return ('+m[1]+')')():null;})();
+// BLOCKS: AI building-blocks tab (voice/image/video/music/embeddings/docs/media infra) — same
+// tolerant eval-parse so its icons are fetched & stored locally too (never hotlinked).
+const barr=(()=>{const m=html.match(/const BLOCKS=(\[[\s\S]*?\n\]);/);return m?Function('return ('+m[1]+')')():null;})();
 
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 // map true content-type -> file extension. Naming the saved file by DETECTED mime
@@ -82,6 +85,7 @@ function processList(list,label){
 processList(arr,'PLATFORMS');
 if(tarr)processList(tarr,'TOOLS');
 if(parr)processList(parr,'PROVIDERS');
+if(barr)processList(barr,'BLOCKS');
 
 const litP='[\n'+arr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
 html=html.replace(/const PLATFORMS=\[[\s\S]*?\n\];/,'const PLATFORMS='+litP+';');
@@ -93,5 +97,9 @@ if(parr){
   const litR='[\n'+parr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
   html=html.replace(/const PROVIDERS=\[[\s\S]*?\n\];/,'const PROVIDERS='+litR+';');
 }
+if(barr){
+  const litB='[\n'+barr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
+  html=html.replace(/const BLOCKS=\[[\s\S]*?\n\];/,'const BLOCKS='+litB+';');
+}
 fs.writeFileSync(FILE,html);
-console.log(`\nReal favicons: ${fetched} · SVG fallbacks: ${svg} · platforms ${arr.length}${tarr?` · tools ${tarr.length}`:''}${parr?` · providers ${parr.length}`:''}`);
+console.log(`\nReal favicons: ${fetched} · SVG fallbacks: ${svg} · platforms ${arr.length}${tarr?` · tools ${tarr.length}`:''}${parr?` · providers ${parr.length}`:''}${barr?` · blocks ${barr.length}`:''}`);

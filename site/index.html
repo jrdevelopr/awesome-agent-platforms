@@ -399,6 +399,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.7 2.7-2-2 2.7-2.7z"/></svg>
       Tools for AI coding agents <span class="tabn" id="tabn-tools"></span>
     </button>
+    <button class="tab" data-tab="blocks" role="tab" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      AI building blocks <span class="tabn" id="tabn-blocks"></span>
+    </button>
   </div>
 
   <section id="view-platforms" class="view">
@@ -556,6 +560,50 @@
       </div>
     </div>
     <div class="cards" id="tcards"></div>
+  </section>
+
+  <section id="view-blocks" class="view" hidden>
+    <header class="hero">
+      <span class="eyebrow"><span class="dot"></span> Embeddable AI APIs &amp; models · <b id="bcountEy" style="color:var(--txt);font-weight:700;letter-spacing:.08em"></b></span>
+      <h1>AI <span class="g">building blocks</span></h1>
+      <p class="sub">The AI capabilities you wire <b>into</b> your own apps, sites &amp; agents — <b>voice</b> (TTS/STT), <b>image</b>, <b>video</b>, <b>music</b>, <b>embeddings/search</b>, <b>documents/OCR</b> and the <b>media-inference</b> clouds that serve them. Developer-facing APIs &amp; SDKs (ElevenLabs, Deepgram, FLUX, Gemini TTS…) — distinct from the LLM providers that run your coding agents. Filter by capability.</p>
+    </header>
+
+    <div class="stats" id="bstats"></div>
+
+    <div class="bar">
+      <div style="color:var(--mut);font-size:13px">↑ Each tile is a <b style="color:var(--txt);font-weight:600">capability</b> — click any to filter (stack several to match&nbsp;any) · click a <b style="color:var(--txt);font-weight:600">row</b> to expand full detail, integration notes &amp; user sentiment</div>
+      <div style="display:flex;gap:10px;align-items:center;flex:1;justify-content:flex-end;flex-wrap:wrap">
+        <button id="bresetF" class="resetf" hidden>✕ Clear filters</button>
+        <div class="search"><input id="bq" type="search" placeholder="Search building blocks…" /></div>
+      </div>
+    </div>
+
+    <div class="tablecard">
+      <div class="scroll">
+        <table>
+          <colgroup>
+            <col class="cg-exp"><col class="cg-rank"><col class="cg-name"><col class="cg-cat"><col class="cg-cost"><col class="cg-bfor"><col class="cg-api"><col class="cg-priv"><col class="cg-m"><col class="cg-mdl2">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="c-exp" aria-hidden="true"></th>
+              <th class="c-rank" aria-hidden="true"></th>
+              <th class="c-name l" title="Name + GitHub stars where it's an open-source repo">Building block <button id="bstarSort" class="starsort" type="button" title="Sort by GitHub stars — click to toggle ▼ most → ▲ fewest → A–Z"><span class="st2">★</span> stars <span class="sarrow">⇅</span></button></th>
+              <th title="Capability — what kind of AI it adds to your app"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Capability</span></span></th>
+              <th title="Cost / license"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L3 12V3h9l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg><span>Cost</span></span></th>
+              <th title="Best for — the workloads this is a strong pick for"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 6.9 7.3.2-5.8 4.4 2.1 7-6-4.1-6 4.1 2.1-7L2.3 9.1l7.3-.2z"/></svg><span>Best for</span></span></th>
+              <th class="c-api" title="API compatibility — how you call it"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3M16 3h3a2 2 0 012 2v3M8 21H5a2 2 0 01-2-2v-3M16 21h3a2 2 0 002-2v-3"/><circle cx="12" cy="12" r="2.5"/></svg><span>API compat</span></span></th>
+              <th class="c-priv" title="Privacy / data use — conservative summary of prompt &amp; data handling"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg><span>Privacy</span></span></th>
+              <th title="Self-hosted — can run entirely on your own machine"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg><span>Self-host</span></span></th>
+              <th class="l" title="What it offers — models / formats / API surface"><span class="hhl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4.5" y="8" width="15" height="11" rx="2.5"/><path d="M12 8V5.5"/><circle cx="12" cy="4" r="1.6"/><path d="M9.5 13h.01M14.5 13h.01M9.5 16h5"/></svg>What it offers</span></th>
+            </tr>
+          </thead>
+          <tbody id="brows"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="cards" id="bcards"></div>
   </section>
 
   <footer>
@@ -997,7 +1045,7 @@ const TOOLS=[
 const PROVIDERS=[
 {"name":"OpenAI","url":"https://openai.com","link":"openai.com","kind":"frontier","cost":{"t":"hybrid","label":"Freemium","price":"Paid API + free ChatGPT tier"},"openWeights":{"s":"partial","note":"Closed weights; gpt-oss models are the exception"},"models":"GPT-4o, o3, o4-mini, GPT-4.1, Codex","access":"API, ChatGPT app/web, OpenAI-compatible","selfHost":{"s":"partial","note":"Only the open gpt-oss models run locally"},"stars":20177,"icon":"icons/openai.ico","summary":"The lab behind ChatGPT and the GPT-4 family, offering frontier closed models via API plus a growing open-weight gpt-oss line.","verdict":"Rated the safe default for strongest all-round reasoning and ecosystem depth; main gripes are premium flagship pricing and frequent model churn.","bestFor":["coding","agents","chat"],"apiCompat":{"v":"native","note":"Reference OpenAI API (the de-facto standard)"},"privacy":{"v":"notrain","note":"API inputs not used for training by default; ~30-day abuse-retention"}},
 {"name":"Anthropic","url":"https://anthropic.com","link":"anthropic.com","kind":"frontier","cost":{"t":"hybrid","label":"Freemium","price":"Paid API + free Claude.ai tier"},"openWeights":{"s":"no","note":"Fully closed weights"},"models":"Claude Opus 4, Claude Sonnet 4.5, Claude Haiku 3.5","access":"API, Claude.ai app/web, Claude Code, AWS Bedrock, Google Vertex","selfHost":{"s":"no","note":"Cloud only"},"stars":null,"icon":"icons/anthropic.ico","summary":"Safety-focused frontier lab whose Claude models lead on coding, long-context and agentic workflows.","verdict":"Developers love Claude for coding reliability and long-context tasks; main gripe is no free API tier and tight rate limits on heavy use.","bestFor":["coding","agents","chat"],"apiCompat":{"v":"native","note":"Native Messages API; OpenAI-compat shim available"},"privacy":{"v":"notrain","note":"API prompts not used for training by default; zero-retention available for enterprise"}},
-{"name":"Google DeepMind","url":"https://deepmind.google","link":"ai.google.dev","kind":"frontier","cost":{"t":"hybrid","label":"Freemium","price":"Paid API + free Gemini app tier"},"openWeights":{"s":"partial","note":"Gemini closed; open Gemma models released separately"},"models":"Gemini 2.5 Pro, Gemini 2.0 Flash, Gemma 3 (open)","access":"API (AI Studio), Gemini app/web, Vertex AI, OpenAI-compatible","selfHost":{"s":"partial","note":"Only the open Gemma models run locally"},"stars":null,"icon":"icons/google-deepmind.ico","summary":"Google DeepMind's Gemini family spans multimodal reasoning, massive 2M-token context, and strong agentic and code-gen benchmarks.","verdict":"Praised for huge context windows, multimodality and competitive pricing on Flash; gripes center on inconsistent quality across tiers and confusing model naming.","bestFor":["chat","coding","agents"],"apiCompat":{"v":"openai","note":"Native Gemini API + OpenAI-compatible endpoint"},"privacy":{"v":"enterprise","note":"Paid/Vertex tier not trained on; free AI Studio data may be used to improve products"}},
+{"name":"Google DeepMind","url":"https://deepmind.google","link":"ai.google.dev","kind":"frontier","cost":{"t":"hybrid","label":"Freemium","price":"Paid API + free Gemini app tier"},"openWeights":{"s":"partial","note":"Gemini closed; open Gemma models released separately"},"models":"Gemini 2.5 Pro, Gemini 2.0 Flash, Gemini 3.1 Flash TTS (speech), Gemma 3 (open)","access":"API (AI Studio), Gemini app/web, Vertex AI, OpenAI-compatible","selfHost":{"s":"partial","note":"Only the open Gemma models run locally"},"stars":null,"icon":"icons/google-deepmind.ico","summary":"Google DeepMind's Gemini family spans multimodal reasoning, massive 2M-token context, strong agentic/code-gen benchmarks, plus image/video (Veo) and controllable speech (Gemini 3.1 Flash TTS — see the AI building blocks tab).","verdict":"Praised for huge context windows, multimodality and competitive pricing on Flash; gripes center on inconsistent quality across tiers and confusing model naming.","bestFor":["chat","coding","agents","voice"],"apiCompat":{"v":"openai","note":"Native Gemini API + OpenAI-compatible endpoint"},"privacy":{"v":"enterprise","note":"Paid/Vertex tier not trained on; free AI Studio data may be used to improve products"}},
 {"name":"xAI","url":"https://x.ai","link":"x.ai","kind":"frontier","cost":{"t":"hybrid","label":"Freemium","price":"Paid API + free/limited Grok on X"},"openWeights":{"s":"partial","note":"Current Grok closed; older Grok versions open-sourced"},"models":"Grok 3, Grok 3 mini, Grok 2 (open weights)","access":"API, Grok app/web, integrated in X platform","selfHost":{"s":"no","note":"Current flagship is closed; only older weights released"},"stars":null,"icon":"icons/xai.ico","summary":"Elon Musk's AI lab whose Grok models pair frontier reasoning with native real-time access to the X/Twitter data stream.","verdict":"Liked for sharp pricing, live X data access and a less filtered tone; criticized for variable reliability and controversy around content policies.","bestFor":["chat","coding"],"apiCompat":{"v":"openai","note":"xAI API is OpenAI-compatible"},"privacy":{"v":"unknown","note":"X/Grok data-use terms still evolving; limited opt-out detail"}},
 {"name":"Cohere","url":"https://cohere.com","link":"cohere.com","kind":"frontier","cost":{"t":"paid","label":"Paid","price":"Paid API; some open weights free to self-host"},"openWeights":{"s":"partial","note":"Command A/R open weights; top variants are contact-sales"},"models":"Command A+, Command R+, Rerank 3.5, Embed 3","access":"API, cloud (Bedrock/Azure/GCP), local for open variants, enterprise","selfHost":{"s":"partial","note":"Open Command A/R weights self-hostable"},"stars":null,"icon":"icons/cohere.ico","summary":"Enterprise-focused lab specializing in RAG, retrieval and multilingual models, with some Command variants released open under Apache 2.0.","verdict":"Enterprises rate it for RAG, citations, sovereign deployment and data privacy; gripe is it trails consumer frontier labs in raw model buzz.","bestFor":["rag","enterprise","embeddings"],"apiCompat":{"v":"native","note":"Native Cohere API + SDK (not OpenAI-shaped)"},"privacy":{"v":"enterprise","note":"No training on customer data; private / sovereign deployment options"}},
 {"name":"Meta (Llama)","url":"https://ai.meta.com/llama","link":"ai.meta.com","kind":"openlab","cost":{"t":"free","label":"Free","price":"Open weights, free to self-host; paid via cloud hosts"},"openWeights":{"s":"yes","note":"Llama 3.x open under Llama Community License"},"models":"Llama 3.3 70B, Llama 3.1 405B, Llama 3.2 multimodal","access":"Download weights, all major cloud providers, OpenAI-compatible endpoints","selfHost":{"s":"yes","note":"Download and run Llama weights yourself"},"stars":7638,"icon":"icons/meta-llama.ico","summary":"Meta's Llama herd popularized open-weight LLMs and powers a huge ecosystem of fine-tunes, tools and deployments worldwide.","verdict":"Beloved as the open-weight standard for self-hosting and cheap hosted inference; gripes are the license restrictions on commercial use and Meta's largest frontier models staying closed.","bestFor":["local","coding","cheap"],"apiCompat":{"v":"local","note":"No first-party API — run weights via any OpenAI-compatible host"},"privacy":{"v":"local","note":"Self-hosted weights — your data stays on your infra"}},
@@ -1151,7 +1199,8 @@ function kindBadge(k){const d=KIND[k]||KIND.cloud;return `<span class="kindbadge
 // ── Best For / API compat / Privacy compact-pill vocabularies ──────────────
 const BESTFOR={coding:['Coding','pc-blue'],agents:['Agents','pc-violet'],chat:['Chat','pc-cyan'],
   rag:['RAG','pc-teal'],embeddings:['Embeddings','pc-indigo'],voice:['Voice','pc-pink'],
-  local:['Local','pc-green'],enterprise:['Enterprise','pc-slate'],cheap:['Cheap','pc-amber']};
+  local:['Local','pc-green'],enterprise:['Enterprise','pc-slate'],cheap:['Cheap','pc-amber'],
+  realtime:['Realtime','pc-pink'],multilingual:['Multilingual','pc-cyan'],production:['Production','pc-slate'],creative:['Creative','pc-violet']};
 const APICOMPAT={openai:['OpenAI-compat','pc-green'],native:['Native API','pc-blue'],
   partial:['Partial','pc-amber'],sdk:['SDK only','pc-violet'],local:['Local API','pc-teal'],
   unknown:['Unknown','pc-mut']};
@@ -1276,28 +1325,177 @@ document.getElementById('presetF').addEventListener('click',()=>{pactive.clear()
 })();
 applyProviders();
 
+/* ════════════════════════════════════════════════════════════════════
+   AI BUILDING BLOCKS tab — embeddable AI APIs/models you wire into your
+   own apps (voice, image, video, music, embeddings, docs/OCR, media infra).
+   Reuses starsEl, costCell, markSym, prettyLink + the .pill system.
+   ════════════════════════════════════════════════════════════════════ */
+const BCAT={
+  voice:{label:'Voice / speech',cls:'cat-skills',icon:'<path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>'},
+  image:{label:'Image',cls:'cat-browser',icon:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 16l-5-5L5 21"/>'},
+  video:{label:'Video',cls:'cat-orchestration',icon:'<rect x="2.5" y="5" width="14" height="14" rx="2"/><path d="M16.5 9.5l5-3v11l-5-3z"/>'},
+  music:{label:'Music / audio',cls:'cat-monitoring',icon:'<path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/>'},
+  embeddings:{label:'Embeddings / search',cls:'cat-context',icon:'<circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="7" r="2.5"/><circle cx="9" cy="17" r="2.5"/><path d="M8 7l8 .5M8 8l1 7"/>'},
+  docs:{label:'Documents / OCR',cls:'cat-router',icon:'<path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4M9 13h6M9 17h6M9 9h2"/>'},
+  mediainfra:{label:'Media infra',cls:'cat-coding',icon:'<path d="M17.5 19a4.5 4.5 0 00.5-9 6 6 0 00-11.6 1.5A3.5 3.5 0 006.5 19z"/><path d="M9 14l2 2 4-4"/>'}
+};
+function capBadge(k){const c=BCAT[k]||BCAT.voice;return `<span class="catbadge ${c.cls}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${c.icon}</svg>${c.label}</span>`;}
+
+const BLOCKS=[
+{"name":"ElevenLabs","url":"https://elevenlabs.io","link":"elevenlabs.io","cap":"voice","cost":{"t":"hybrid","label":"Freemium","price":"Free 10k credits/mo; Starter $5 → Pro $99/mo; usage-based"},"bestFor":["production","multilingual"],"apiCompat":{"v":"native","note":"REST API + official Python/Node SDKs"},"privacy":{"v":"enterprise","note":"No training on your audio by default; zero-retention & enterprise options"},"selfHost":{"s":"no","note":"Hosted API only"},"models":"TTS (Multilingual v2, Flash v2.5), voice cloning, dubbing, Scribe STT, SFX","stars":null,"icon":"icons/elevenlabs.ico","summary":"The most popular AI voice platform — expressive TTS, instant voice cloning, dubbing and a low-latency Flash model for realtime agents.","verdict":"Widely loved for the most natural voices and easiest API; gripes are credit-based pricing that adds up at scale and cloning-consent concerns."},
+{"name":"Deepgram","url":"https://deepgram.com","link":"deepgram.com","cap":"voice","cost":{"t":"hybrid","label":"Freemium","price":"$200 free credit; pay-as-you-go from ~$0.0043/min"},"bestFor":["realtime","enterprise"],"apiCompat":{"v":"native","note":"REST + WebSocket streaming API; SDKs"},"privacy":{"v":"enterprise","note":"Does not train on customer data; self-host / on-prem for enterprise"},"selfHost":{"s":"partial","note":"Self-hosted / on-prem deployment available (enterprise)"},"models":"Nova-3 STT, Aura-2 TTS, realtime streaming + batch transcription","stars":null,"icon":"icons/deepgram.ico","summary":"A speech-to-text cloud built for realtime, high-accuracy transcription at scale, with a fast TTS line and optional on-prem deployment.","verdict":"Praised for low-latency streaming accuracy and fair per-minute pricing; gripes are docs depth and occasional accuracy gaps on heavy accents/noise."},
+{"name":"AssemblyAI","url":"https://assemblyai.com","link":"assemblyai.com","cap":"voice","cost":{"t":"hybrid","label":"Freemium","price":"Free tier; pay-as-you-go from ~$0.27/hr (Universal)"},"bestFor":["production","agents"],"apiCompat":{"v":"native","note":"REST API + SDKs; async + realtime"},"privacy":{"v":"enterprise","note":"No training on your data; data deleted after processing; SOC2/HIPAA"},"selfHost":{"s":"no","note":"Hosted API only"},"models":"Universal STT, speaker diarization, LeMUR audio-LLM, summarization","stars":null,"icon":"icons/assemblyai.ico","summary":"Speech-to-text plus an audio-understanding layer (summaries, chapters, sentiment, LLM Q&A over calls) via a clean developer API.","verdict":"Liked for accuracy and the higher-level audio-intelligence features out of the box; gripes are cost at high volume and realtime trailing Deepgram slightly."},
+{"name":"Cartesia","url":"https://cartesia.ai","link":"cartesia.ai","cap":"voice","cost":{"t":"hybrid","label":"Freemium","price":"Free tier; paid from ~$5/mo + usage"},"bestFor":["realtime","agents"],"apiCompat":{"v":"native","note":"REST + WebSocket streaming; SDKs"},"privacy":{"v":"retention","note":"No training on inputs; limited retention (per policy)"},"selfHost":{"s":"no","note":"Hosted; limited on-device offerings"},"models":"Sonic TTS (ultra-low-latency), voice cloning, realtime streaming","stars":null,"icon":"icons/cartesia.png","summary":"A speed-obsessed TTS built on state-space models, targeting sub-100ms voice for realtime conversational agents.","verdict":"Raved about for the lowest latency and natural prosody in voice agents; gripes are a smaller voice library and it being newer/less battle-tested."},
+{"name":"Hume AI","url":"https://hume.ai","link":"hume.ai","cap":"voice","cost":{"t":"hybrid","label":"Freemium","price":"Free tier; EVI usage-based (~$0.07/min)"},"bestFor":["agents","creative"],"apiCompat":{"v":"native","note":"WebSocket EVI + REST; SDKs"},"privacy":{"v":"retention","note":"Handles sensitive voice/emotion data — review retention & consent terms"},"selfHost":{"s":"no","note":"Hosted API only"},"models":"EVI empathic voice interface, expression measurement, Octave TTS","stars":null,"icon":"icons/hume-ai.ico","summary":"An empathic voice API that reads emotional tone and responds expressively — a turnkey speech-to-speech agent layer.","verdict":"Interesting for emotionally-aware voice UX; gripes are niche positioning, cost, and privacy questions around emotion inference."},
+{"name":"Gemini 3.1 Flash TTS","url":"https://ai.google.dev/gemini-api/docs/speech-generation","link":"ai.google.dev","cap":"voice","cost":{"t":"hybrid","label":"Freemium","price":"Free tier in AI Studio; paid via Gemini API / Vertex AI"},"bestFor":["multilingual","cheap"],"apiCompat":{"v":"native","note":"Gemini API / Cloud Text-to-Speech REST; SDKs"},"privacy":{"v":"enterprise","note":"Paid/Vertex not trained on; free AI Studio data may be reviewed; SynthID watermark"},"selfHost":{"s":"no","note":"Hosted via Google"},"models":"TTS — 200+ audio tags, 70+ languages, native multi-speaker dialogue","stars":null,"icon":"icons/gemini-3-1-flash-tts.png","summary":"Google's controllable text-to-speech model (Apr 2026) — steer delivery with 200+ audio tags, 70+ languages and multi-speaker dialogue; tops the Artificial Analysis TTS leaderboard.","verdict":"Early buzz is strong on expressivity and control plus Google-scale pricing; it's new and preview-tier, and locks you into the Google stack."},
+{"name":"OpenAI Audio","url":"https://platform.openai.com/docs/guides/audio","link":"platform.openai.com","cap":"voice","cost":{"t":"paid","label":"Paid","price":"Whisper $0.006/min; TTS from $15/1M chars; Realtime usage-based"},"bestFor":["cheap","multilingual"],"apiCompat":{"v":"openai","note":"OpenAI audio endpoints (the de-facto standard)"},"privacy":{"v":"notrain","note":"API inputs not used for training by default"},"selfHost":{"s":"partial","note":"Whisper is open-weight & self-hostable; TTS/Realtime are API-only"},"models":"Whisper STT, TTS (tts-1, gpt-4o-mini-tts), Realtime speech-to-speech","stars":null,"icon":"icons/openai-audio.png","summary":"OpenAI's audio stack — open-weight Whisper transcription plus hosted TTS and a Realtime voice API, all behind the familiar OpenAI SDK.","verdict":"The easy default if you're already on OpenAI; Whisper self-hosting is a big plus, but voices are less expressive than ElevenLabs/Cartesia."},
+{"name":"Black Forest Labs (FLUX)","url":"https://bfl.ai","link":"bfl.ai","cap":"image","cost":{"t":"hybrid","label":"Freemium","price":"Open weights (FLUX.1 dev/schnell); paid API + Pro/Ultra tiers"},"bestFor":["creative","local"],"apiCompat":{"v":"native","note":"BFL API; weights run via diffusers/ComfyUI"},"privacy":{"v":"local","note":"Open FLUX.1 weights run private; hosted API retention varies"},"selfHost":{"s":"yes","note":"FLUX.1 [dev]/[schnell] open weights run locally"},"models":"FLUX.1 [dev/schnell/pro], FLUX1.1 Ultra/Raw — image generation + editing","stars":null,"icon":"icons/black-forest-labs-flux.ico","summary":"The lab (ex-Stable Diffusion team) behind FLUX — current state-of-the-art open-weight image generation, available as weights or a hosted API.","verdict":"Beloved as the new open image SOTA — quality rivals closed models and you can self-host; gripes are heavy VRAM for the big models and license terms on [dev]."},
+{"name":"Stability AI","url":"https://stability.ai","link":"stability.ai","cap":"image","cost":{"t":"hybrid","label":"Freemium","price":"Open weights; API credits + membership tiers"},"bestFor":["creative","local"],"apiCompat":{"v":"native","note":"REST API; weights via diffusers"},"privacy":{"v":"local","note":"Open weights run private; hosted API per policy"},"selfHost":{"s":"yes","note":"Open weights (SD3.5, SDXL) run locally"},"models":"Stable Diffusion 3.5, SDXL, Stable Audio, Stable Video — weights + API","stars":null,"icon":"icons/stability-ai.webp","summary":"The original open-image lab — a broad family of open-weight image, video and audio models plus a hosted API.","verdict":"Still valued for fully open weights and breadth across modalities; gripes are that FLUX overtook it on quality and the company's turbulent history."},
+{"name":"Ideogram","url":"https://ideogram.ai","link":"ideogram.ai","cap":"image","cost":{"t":"hybrid","label":"Freemium","price":"Free tier; paid from $8/mo; API usage-based"},"bestFor":["creative","cheap"],"apiCompat":{"v":"native","note":"REST API; SDKs"},"privacy":{"v":"retention","note":"Hosted; images may be public on the free tier — check your plan"},"selfHost":{"s":"no","note":"Hosted API only"},"models":"Ideogram 3.0 — image generation with best-in-class text rendering","stars":null,"icon":"icons/ideogram.ico","summary":"An image generator known for actually rendering legible text in images (logos, posters, signage), with a simple API.","verdict":"Go-to when you need real typography in generated images; gripes are it's closed/hosted-only and less flexible than FLUX/SD for fine control."},
+{"name":"Runway","url":"https://runwayml.com","link":"runwayml.com","cap":"video","cost":{"t":"paid","label":"Paid","price":"Credit-based; Standard $15/mo → usage; API tiers"},"bestFor":["creative","production"],"apiCompat":{"v":"native","note":"REST API (Gen-4) + web app"},"privacy":{"v":"retention","note":"Hosted; review content retention & training terms"},"selfHost":{"s":"no","note":"Hosted only"},"models":"Gen-4 / Gen-3 Alpha — text/image-to-video, video editing tools","stars":null,"icon":"icons/runway.png","summary":"A leading AI video studio — text/image-to-video generation plus a suite of editing tools, now exposed via an API.","verdict":"Praised for cinematic quality and creative control; gripes are credit costs, short clip lengths and a learning curve for consistent results."},
+{"name":"Google Veo","url":"https://deepmind.google/models/veo","link":"deepmind.google","cap":"video","cost":{"t":"paid","label":"Paid","price":"Paid via Gemini API / Vertex AI; usage-based"},"bestFor":["creative","production"],"apiCompat":{"v":"native","note":"Gemini API / Vertex AI"},"privacy":{"v":"enterprise","note":"Via Vertex/Gemini enterprise controls; SynthID watermark"},"selfHost":{"s":"no","note":"Hosted via Google"},"models":"Veo 3 — text/image-to-video with native audio generation","stars":null,"icon":"icons/google-veo.ico","summary":"Google DeepMind's flagship video model — high-fidelity text/image-to-video that also generates synchronized audio, available to developers via Gemini/Vertex.","verdict":"Standout for native audio and prompt adherence; gripes are cost, access gating and the Google-stack lock-in."},
+{"name":"Suno","url":"https://suno.com","link":"suno.com","cap":"music","cost":{"t":"hybrid","label":"Freemium","price":"Free daily credits; Pro $10/mo → Premier $30/mo"},"bestFor":["creative","cheap"],"apiCompat":{"v":"native","note":"REST API (plus web app)"},"privacy":{"v":"retention","note":"Free-tier songs are public; review training/retention terms"},"selfHost":{"s":"no","note":"Hosted only"},"models":"v4.5 — full-song music generation (vocals + instrumental) from a prompt","stars":null,"icon":"icons/suno.ico","summary":"The most popular AI music generator — produces complete songs with vocals and instrumentation from a text prompt.","verdict":"Loved for how fun and capable it is; gripes are commercial-rights/training-data controversy and that free-tier output is public."},
+{"name":"Voyage AI","url":"https://voyageai.com","link":"voyageai.com","cap":"embeddings","cost":{"t":"hybrid","label":"Freemium","price":"Free 200M tokens; paid ~$0.02–0.18 per 1M tokens"},"bestFor":["embeddings","enterprise"],"apiCompat":{"v":"native","note":"REST embeddings/rerank API + SDK"},"privacy":{"v":"enterprise","note":"No training on your data; SOC2 (now part of MongoDB)"},"selfHost":{"s":"no","note":"Hosted API only"},"models":"voyage-3 embeddings + rerank-2 (general + code/finance/legal domains)","stars":null,"icon":"icons/voyage-ai.ico","summary":"Best-in-class retrieval embeddings and rerankers for RAG, now part of MongoDB — strong domain-specific models.","verdict":"Top of the retrieval-quality charts for RAG; gripes are hosted-only and the uncertainty of post-acquisition roadmap."},
+{"name":"Jina AI","url":"https://jina.ai","link":"jina.ai","cap":"embeddings","cost":{"t":"hybrid","label":"Freemium","price":"Free tier; paid usage; open-weight models too"},"bestFor":["embeddings","local"],"apiCompat":{"v":"openai","note":"OpenAI-compatible embeddings endpoint; open weights on HF"},"privacy":{"v":"local","note":"Open-weight models self-hostable; hosted API per policy"},"selfHost":{"s":"yes","note":"jina-embeddings / reranker open weights run locally"},"models":"jina-embeddings-v3, reranker, Reader API (URL→LLM-ready text)","stars":null,"icon":"icons/jina-ai.ico","summary":"Multilingual embeddings and rerankers (open-weight + hosted) plus a handy Reader API that turns any URL into clean text for RAG.","verdict":"Valued for open weights, long-context embeddings and the free Reader API; gripes are hosted rate limits and docs sprawl."},
+{"name":"Mistral OCR","url":"https://mistral.ai/news/mistral-ocr","link":"mistral.ai","cap":"docs","cost":{"t":"paid","label":"Paid","price":"~$1 per 1000 pages via La Plateforme"},"bestFor":["production","cheap"],"apiCompat":{"v":"native","note":"La Plateforme OCR endpoint; SDKs"},"privacy":{"v":"enterprise","note":"EU data residency; no training by default; self-host for enterprise"},"selfHost":{"s":"partial","note":"Hosted API; on-prem for enterprise"},"models":"mistral-ocr — document text + layout extraction to clean markdown","stars":null,"icon":"icons/mistral-ocr.ico","summary":"A document-understanding API that turns PDFs, images and scans into structured, LLM-ready markdown preserving tables and layout.","verdict":"Praised as fast and cheap with strong layout/table fidelity for RAG ingestion; gripes are occasional misses on complex/handwritten docs."},
+{"name":"fal.ai","url":"https://fal.ai","link":"fal.ai","cap":"mediainfra","cost":{"t":"hybrid","label":"Freemium","price":"Pay-per-use GPU/inference; free starter credits"},"bestFor":["realtime","cheap"],"apiCompat":{"v":"native","note":"fal API + client SDKs (JS/Python); webhooks"},"privacy":{"v":"retention","note":"Inference cloud — per-run retention; review terms"},"selfHost":{"s":"no","note":"Hosted inference cloud"},"models":"Fast hosted inference for FLUX, SDXL, video, audio & transcription models","stars":null,"icon":"icons/fal-ai.ico","summary":"A media-focused inference cloud optimized for fast image/video/audio model serving with a simple run-by-API and webhooks.","verdict":"Loved for speed and breadth of ready-to-run media models without managing GPUs; gripes are per-use costs at scale and being hosted-only."}
+];
+
+let bsortMode='alpha';
+function sortedBlocks(){
+  const a=BLOCKS.slice();
+  if(bsortMode==='stars-desc') a.sort((x,y)=>(y.stars==null?-1:y.stars)-(x.stars==null?-1:x.stars));
+  else if(bsortMode==='stars-asc') a.sort((x,y)=>(x.stars==null?Infinity:x.stars)-(y.stars==null?Infinity:y.stars));
+  else a.sort((x,y)=>x.name.toLowerCase().localeCompare(y.name.toLowerCase()));
+  return a;
+}
+function blockDetail(b){
+  return `<tr class="drow drow-notes" hidden>
+    <td class="userssay" colspan="3"><div class="ussay"><p>${b.summary} <button class="us-toggle" type="button">Users say ▾</button></p><div class="us-body" hidden>${b.verdict}</div></div></td>
+    <td class="dncell"><span class="dntext">${BCAT[b.cap].label}</span></td>
+    <td class="dncell costdetail"><span class="dntext">${b.cost.price}</span></td>
+    <td class="dncell"><span class="dntext">${(b.bestFor||[]).map(k=>(BESTFOR[k]||['Unknown'])[0]).join(', ')}</span></td>
+    <td class="dncell c-api"><span class="dntext">${(b.apiCompat&&b.apiCompat.note)||''}</span></td>
+    <td class="dncell c-priv"><span class="dntext">${(b.privacy&&b.privacy.note)||''}</span></td>
+    <td class="dncell"><span class="dntext">${b.selfHost.note||''}</span></td>
+    <td class="dncell modelcell"><span class="dntext">${b.models}</span></td>
+  </tr>`;
+}
+function renderBlocks(list){
+  document.getElementById('brows').innerHTML=list.map((b,idx)=>{
+    const i=BLOCKS.indexOf(b);
+    return `<tr class="prow${idx%2?' alt':''}" data-i="${i}" tabindex="0" role="button" aria-expanded="false">
+      <td class="c-exp"><span class="chev">${CHEV}</span></td>
+      <td class="c-rank"><img class="favic" src="${b.icon}" alt="" loading="lazy"></td>
+      <td class="c-name"><div class="pname">${b.name} ${starsEl(b)}</div>
+        <a class="plink" href="${b.url}" target="_blank" rel="noopener">${prettyLink(b.link)} ${EXT}</a></td>
+      <td>${capBadge(b.cap)}</td>
+      <td>${costCell(b.cost)}</td>
+      <td>${bestForEl(b.bestFor)}</td>
+      <td class="c-api">${apiPill(b.apiCompat)}</td>
+      <td class="c-priv privcell">${privPill(b.privacy)}</td>
+      <td>${markSym(b.selfHost)}</td>
+      <td class="modelcell"><div class="modelclamp">${b.models}</div></td>
+    </tr>
+    ${blockDetail(b)}`;
+  }).join('');
+  document.getElementById('bcards').innerHTML=list.map(b=>{return `<div class="card" data-i="${BLOCKS.indexOf(b)}">
+      <div class="chead">
+        <img class="favic" src="${b.icon}" alt="" loading="lazy">
+        <div class="cmain"><div class="cnm">${b.name} ${starsEl(b)}</div><a class="clink" href="${b.url}" target="_blank" rel="noopener">${prettyLink(b.link)} ↗</a></div>
+        <span class="cbadge ${b.cost.t}">${b.cost.label}</span>
+        <span class="chev cchev">${CHEV}</span></div>
+      <div class="ccaps">${capBadge(b.cap)}</div>
+      <div class="ccaps">${bestForEl(b.bestFor)}</div>
+      <div class="cdetail" hidden>
+        <div class="cdep"><b>API compat:</b> ${apiPill(b.apiCompat)} ${(b.apiCompat&&b.apiCompat.note)||''}</div>
+        <div class="cdep"><b>Privacy / data use:</b> ${privPill(b.privacy)} ${(b.privacy&&b.privacy.note)||''}</div>
+        <div class="cdep"><b>Self-host:</b> ${b.selfHost.note||''}</div>
+        <div class="cdep"><b>What it offers:</b> ${b.models}</div>
+        <div class="cdep"><b>Cost:</b> ${b.cost.price}</div>
+        <div class="cvd"><b>Bottom line:</b> ${b.verdict}</div>
+      </div>
+    </div>`;}).join('');
+  document.getElementById('count').textContent=`Showing ${list.length} of ${BLOCKS.length} building blocks.`;
+}
+const bactive=new Set(); let bQ='';
+function applyBlocks(){
+  const all=sortedBlocks();
+  const list=all.filter(b=>{
+    if(bactive.size && !bactive.has(b.cap))return false;
+    if(bQ && !(b.name+' '+b.models+' '+b.summary+' '+b.verdict+' '+BCAT[b.cap].label).toLowerCase().includes(bQ))return false;
+    return true;
+  });
+  renderBlocks(list);
+  document.querySelectorAll('#bstats [data-b]').forEach(x=>x.classList.toggle('on',bactive.has(x.dataset.b)));
+  const r=document.getElementById('bresetF'); if(r)r.hidden=bactive.size===0;
+}
+// capability filter tiles (live counts)
+(function(){
+  const order=['voice','image','video','music','embeddings','docs','mediainfra'];
+  const n=c=>BLOCKS.filter(b=>b.cap===c).length;
+  const stats=document.getElementById('bstats');
+  stats.innerHTML=order.filter(n).map(c=>
+    `<div class="stat" data-b="${c}"><span class="fic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${BCAT[c].icon}</svg></span><b>${n(c)}</b><span>${BCAT[c].label}</span></div>`).join('');
+  stats.addEventListener('click',e=>{const t=e.target.closest('[data-b]');if(!t)return;
+    const c=t.dataset.b; bactive.has(c)?bactive.delete(c):bactive.add(c); applyBlocks();});
+})();
+document.getElementById('bq').addEventListener('input',e=>{bQ=e.target.value.trim().toLowerCase();applyBlocks();});
+document.getElementById('bresetF').addEventListener('click',()=>{bactive.clear();applyBlocks();});
+(function(){
+  const btn=document.getElementById('bstarSort'), ar=btn.querySelector('.sarrow');
+  btn.addEventListener('click',()=>{
+    bsortMode = bsortMode==='alpha'?'stars-desc' : bsortMode==='stars-desc'?'stars-asc' : 'alpha';
+    btn.classList.toggle('on', bsortMode!=='alpha');
+    ar.textContent = bsortMode==='stars-desc'?'▼' : bsortMode==='stars-asc'?'▲' : '⇅';
+    applyBlocks();
+  });
+})();
+// building-blocks accordion (rows + cards)
+(function(){
+  const tb=document.getElementById('brows');
+  function setD(tr,show){let n=tr.nextElementSibling;while(n&&n.classList.contains('drow')){n.hidden=!show;n=n.nextElementSibling;}}
+  function toggle(tr){ if(!tr.nextElementSibling||!tr.nextElementSibling.classList.contains('drow'))return;
+    const willOpen=!tr.classList.contains('open');
+    tb.querySelectorAll('.prow.open').forEach(r=>{r.classList.remove('open');r.setAttribute('aria-expanded','false');setD(r,false);});
+    if(willOpen){tr.classList.add('open');tr.setAttribute('aria-expanded','true');setD(tr,true);} }
+  tb.addEventListener('click',e=>{ if(e.target.closest('a'))return;
+    const ut=e.target.closest('.us-toggle'); if(ut){const bd=ut.closest('.ussay').querySelector('.us-body');const show=bd.hidden;bd.hidden=!show;ut.classList.toggle('on',show);return;}
+    const tr=e.target.closest('.prow'); if(tr)toggle(tr); });
+  tb.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ')return; const tr=e.target.closest('.prow'); if(tr){e.preventDefault();toggle(tr);} });
+  const bc=document.getElementById('bcards');
+  bc.addEventListener('click',e=>{ if(e.target.closest('a'))return; const head=e.target.closest('.chead'); if(!head)return;
+    const card=head.closest('.card'),det=card.querySelector('.cdetail'),willOpen=!card.classList.contains('open');
+    bc.querySelectorAll('.card.open').forEach(c=>{c.classList.remove('open');const d=c.querySelector('.cdetail');if(d)d.hidden=true;});
+    if(willOpen){card.classList.add('open');if(det)det.hidden=false;} });
+})();
+
 /* ── tab switching (Platforms | AI Model Providers | Agent Tools) + deep-link ─── */
-const VIEWS={platforms:document.getElementById('view-platforms'),providers:document.getElementById('view-providers'),tools:document.getElementById('view-tools')};
+const VIEWS={platforms:document.getElementById('view-platforms'),providers:document.getElementById('view-providers'),tools:document.getElementById('view-tools'),blocks:document.getElementById('view-blocks')};
 const TABS=document.querySelectorAll('.tab');
 document.getElementById('tabn-platforms').textContent=PLATFORMS.length;
 document.getElementById('tabn-providers').textContent=PROVIDERS.length;
 document.getElementById('tabn-tools').textContent=TOOLS.length;
+document.getElementById('tabn-blocks').textContent=BLOCKS.length;
 document.getElementById('tcountEy').textContent=TOOLS.length+' tools';
 document.getElementById('pcountEy').textContent=PROVIDERS.length+' providers';
+document.getElementById('bcountEy').textContent=BLOCKS.length+' building blocks';
 function showTab(name){
   if(!VIEWS[name])name='platforms';
   for(const k in VIEWS) VIEWS[k].hidden=(k!==name);
   TABS.forEach(b=>{const on=b.dataset.tab===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');});
   if(name==='tools')applyTools();
   else if(name==='providers')applyProviders();
+  else if(name==='blocks')applyBlocks();
   else apply();
-  try{const u=new URL(location.href);const h=name==='tools'?'#tools':name==='providers'?'#providers':'';history.replaceState(null,'',u.pathname+u.search+h);}catch(e){}
+  try{const u=new URL(location.href);const h=name==='tools'?'#tools':name==='providers'?'#providers':name==='blocks'?'#blocks':'';history.replaceState(null,'',u.pathname+u.search+h);}catch(e){}
   try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){}
 }
 TABS.forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 applyTools();   // pre-render so deep-links are instant
+applyBlocks();
 const _initHash=(location.hash||'').replace('#','');
-showTab(['tools','providers'].includes(_initHash)?_initHash:'platforms');
+showTab(['tools','providers','blocks'].includes(_initHash)?_initHash:'platforms');
 </script>
 </body>
 </html>

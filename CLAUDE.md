@@ -29,9 +29,12 @@ keys? `yes` = both via the CLIs; `partial` = one side only (Claude-only / Codex-
 `no` = API key / BYOK only, or its own proprietary subscription. Grounded in each row's documented agent CLIs.
 Rendered right after Cost (mark in collapsed row, note in the expanded detail, cap on mobile cards).
 
-## Tabs — Platforms | Agent Tools
-The page is a **tabbed UI** (`.tabs` bar; `#view-platforms` / `#view-tools` sections; deep-link
-`#tools`). More tabs can be added later by cloning the pattern.
+## Tabs — Platforms | Providers | Agent Tools | AI building blocks
+The page is a **tabbed UI** (`.tabs` bar; `#view-platforms` / `#view-providers` / `#view-tools` /
+`#view-blocks` sections; deep-links `#providers` `#tools` `#blocks`). Wiring lives in the
+`VIEWS`/`showTab()` block at the end of `<script>` — to add a tab, register it in `VIEWS`, add a
+`apply<X>()` branch in `showTab`, set its `tabn-<x>`/`<x>countEy` counts, and add it to the
+init-hash whitelist `['tools','providers','blocks']`. More tabs can be added by cloning the pattern.
 - **Tab 1 = Platforms** — the `PLATFORMS` array (unchanged; full capability matrix).
 - **Tab 2 = Agent Tools** — the **`TOOLS` array** in `site/index.html`: drop-in add-ons that plug
   INTO agents (memory, computer-use, web access, skills, model routing, security, monitoring).
@@ -44,6 +47,22 @@ The page is a **tabbed UI** (`.tabs` bar; `#view-platforms` / `#view-tools` sect
   - Sorted **A→Z** at render (star-sort toggle in the Tool header, like Platforms).
   - Tools render reuses the platform helpers (`starsEl`, `costCell`, `markSym`, `CHEV`, `noteTd`).
   - Hermes Agent stays on the **Platforms** tab (it's a full agent, not an add-on) — not duplicated.
+- **Tab 4 = AI building blocks** — the **`BLOCKS` array** in `site/index.html`: embeddable AI
+  capabilities you wire **into** your own apps/sites/agents (voice TTS/STT, image, video, music,
+  embeddings/search, documents/OCR, media-inference clouds) — distinct from the LLM *providers*
+  that run coding agents. Each BLOCKS object:
+  `name,url,link,cap,cost{t,label,price},bestFor[],apiCompat{v,note},privacy{v,note},selfHost{s,note},models,stars,icon,summary,verdict`.
+  - `cap` ∈ `voice|image|video|music|embeddings|docs|mediainfra` (drives the colored `capBadge`
+    — reuses the `.catbadge`/`.cat-*` classes — and the capability filter chips in `#bstats`). To
+    add a capability, extend the `BCAT` map.
+  - `bestFor`/`apiCompat`/`privacy` reuse the **same `.pill` system + `BESTFOR`/`APICOMPAT`/`PRIVACY`
+    maps** as the Providers tab (the BLOCKS seed added media keys to `BESTFOR`:
+    `realtime|multilingual|production|creative`). Same responsive priority — Privacy hides first
+    (`.c-priv`), then API compat (`.c-api`); Best-for stays longest. 10-column table.
+  - Sorted **A→Z** at render (star-sort toggle in the header, like the other tabs); render reuses
+    `starsEl`, `costCell`, `markSym`, `prettyLink`, `CHEV`, `EXT` + the `.pill` helpers.
+  - **Gemini 3.1 Flash TTS** is cross-linked: it's a BLOCKS row *and* listed in the Google DeepMind
+    Models cell on the Providers tab (with a `voice` Best-for badge). Keep both in sync.
 
 ## Providers tab — extra columns
 Each `PROVIDERS` object also carries three compact-badge fields (rendered via the shared `.pill`
@@ -59,7 +78,7 @@ system + `BESTFOR`/`APICOMPAT`/`PRIVACY` maps):
   stays visible longest. Detail-row cells share those classes so they hide in sync (alignment stays 11 cols).
 
 ## Icons
-`bin/fetch-icons.js` fetches favicons for **all three** arrays — `PLATFORMS`, `TOOLS` and `PROVIDERS` (GitHub org/`github.io`
+`bin/fetch-icons.js` fetches favicons for **all four** arrays — `PLATFORMS`, `TOOLS`, `PROVIDERS` and `BLOCKS` (GitHub org/`github.io`
 avatar for repo-hosted, site favicon else, SVG lettered-tile fallback). **It names each file by its
 TRUE mime type** (e.g. an SVG served at `/favicon.ico` is saved `.svg`, not `.ico`) so the browser
 never gets a content-type mismatch. All icons are stored locally under `site/icons/` — **never
