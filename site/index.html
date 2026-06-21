@@ -697,6 +697,13 @@ function modelsDetail(p){        // shown in the expanded (accordion) per-column
 }
 const CHEV='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
 const EXT='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+// Clean, short link label: bare host (no protocol/www, path dropped) so long URLs
+// never wrap/jumble; github.com → "GitHub" to match the Platforms tab convention.
+// The full URL stays the clickable href — only the visible text shortens.
+function prettyLink(s){
+  const host=String(s||'').replace(/^https?:\/\//,'').replace(/^www\./,'').split('/')[0];
+  return host==='github.com' ? 'GitHub' : (host||String(s||''));
+}
 function noteTd(cell){
   const n=cell&&cell.note?cell.note:'';
   return `<td class="dncell">${n?`<span class="dntext">${n}</span>`:'<span class="dndash">·</span>'}</td>`;
@@ -720,7 +727,7 @@ function render(list){
       <td class="c-exp"><span class="chev">${CHEV}</span></td>
       <td class="c-rank"><img class="favic" src="${p.icon}" alt="" loading="lazy"></td>
       <td class="c-name"><div class="pname">${p.name} ${starsEl(p)}</div>
-        <a class="plink" href="${p.url}" target="_blank" rel="noopener">${p.link} ${EXT}</a></td>
+        <a class="plink" href="${p.url}" target="_blank" rel="noopener">${prettyLink(p.link)} ${EXT}</a></td>
       <td>${costCell(p.cost)}</td>
       ${modelsCell(p)}
       <td>${markSym(p.selfHosted)}</td>
@@ -744,7 +751,7 @@ function render(list){
   document.getElementById('cards').innerHTML=list.map(p=>`<div class="card" data-i="${PLATFORMS.indexOf(p)}">
       <div class="chead">
         <img class="favic" src="${p.icon}" alt="" loading="lazy">
-        <div class="cmain"><div class="cnm">${p.name} ${starsEl(p)}</div><a class="clink" href="${p.url}" target="_blank" rel="noopener">${p.link} ↗</a></div>
+        <div class="cmain"><div class="cnm">${p.name} ${starsEl(p)}</div><a class="clink" href="${p.url}" target="_blank" rel="noopener">${prettyLink(p.link)} ↗</a></div>
         <span class="cbadge ${p.cost.t}">${p.cost.label}</span>
         <span class="chev cchev">${CHEV}</span></div>
       <div class="ccaps">${cap('Self-host',p.selfHosted)}${cap('Shell',p.shell)}${cap('GitHub',p.ghIssues)}${cap('Mobile',p.mobile)}</div>
@@ -1012,7 +1019,7 @@ function renderTools(list){
       <td class="c-exp"><span class="chev">${CHEV}</span></td>
       <td class="c-rank"><img class="favic" src="${t.icon}" alt="" loading="lazy"></td>
       <td class="c-name"><div class="pname">${t.name} ${starsEl(t)}</div>
-        <a class="plink" href="${t.url}" target="_blank" rel="noopener">${t.link} ${EXT}</a></td>
+        <a class="plink" href="${t.url}" target="_blank" rel="noopener">${prettyLink(t.link)} ${EXT}</a></td>
       <td>${catBadge(t.cat)}</td>
       <td>${costCell(t.cost)}</td>
       <td class="typecell">${t.type}</td>
@@ -1026,7 +1033,7 @@ function renderTools(list){
   document.getElementById('tcards').innerHTML=list.map(t=>{const a=cm(t.selfHost);return `<div class="card" data-i="${TOOLS.indexOf(t)}">
       <div class="chead">
         <img class="favic" src="${t.icon}" alt="" loading="lazy">
-        <div class="cmain"><div class="cnm">${t.name} ${starsEl(t)}</div><a class="clink" href="${t.url}" target="_blank" rel="noopener">${t.link} ↗</a></div>
+        <div class="cmain"><div class="cnm">${t.name} ${starsEl(t)}</div><a class="clink" href="${t.url}" target="_blank" rel="noopener">${prettyLink(t.link)} ↗</a></div>
         <span class="cbadge ${t.cost.t}">${t.cost.label}</span>
         <span class="chev cchev">${CHEV}</span></div>
       <div class="ccaps">${catBadge(t.cat)} <span class="cap"><span class="m ${a[0]}">${a[1]}</span>Self-host</span></div>
@@ -1131,7 +1138,7 @@ function renderProviders(list){
       <td class="c-exp"><span class="chev">${CHEV}</span></td>
       <td class="c-rank"><img class="favic" src="${p.icon}" alt="" loading="lazy"></td>
       <td class="c-name"><div class="pname">${p.name} ${starsEl(p)}</div>
-        <a class="plink" href="${p.url}" target="_blank" rel="noopener">${p.link} ${EXT}</a></td>
+        <a class="plink" href="${p.url}" target="_blank" rel="noopener">${prettyLink(p.link)} ${EXT}</a></td>
       <td>${kindBadge(p.kind)}</td>
       <td>${costCell(p.cost)}</td>
       <td>${markSym(p.openWeights)}</td>
@@ -1144,7 +1151,7 @@ function renderProviders(list){
   document.getElementById('pcards').innerHTML=list.map(p=>{const ow=cm(p.openWeights);return `<div class="card" data-i="${PROVIDERS.indexOf(p)}">
       <div class="chead">
         <img class="favic" src="${p.icon}" alt="" loading="lazy">
-        <div class="cmain"><div class="cnm">${p.name} ${starsEl(p)}</div><a class="clink" href="${p.url}" target="_blank" rel="noopener">${p.link} ↗</a></div>
+        <div class="cmain"><div class="cnm">${p.name} ${starsEl(p)}</div><a class="clink" href="${p.url}" target="_blank" rel="noopener">${prettyLink(p.link)} ↗</a></div>
         <span class="cbadge ${p.cost.t}">${p.cost.label}</span>
         <span class="chev cchev">${CHEV}</span></div>
       <div class="ccaps">${kindBadge(p.kind)} <span class="cap"><span class="m ${ow[0]}">${ow[1]}</span>Open weights</span></div>
