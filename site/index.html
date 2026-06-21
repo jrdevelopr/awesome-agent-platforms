@@ -143,6 +143,7 @@
   /* Platform + Models + Cost + Deploy fixed; the mark columns share the rest equally */
   .cg-exp{width:34px}.cg-rank{width:42px}.cg-name{width:206px}.cg-cost{width:146px}.cg-mdl{width:190px}.cg-dep{width:182px}
   .cg-m{width:auto}
+  .cg-cat{width:150px}.cg-type{width:150px}.cg-tw{width:230px}.cg-setup{width:230px}
   thead th{position:sticky;top:60px;z-index:3;background:var(--thead);color:var(--thtxt);font-size:11px;
     letter-spacing:.04em;text-transform:uppercase;text-align:center;padding:10px 7px;font-weight:700;
     border-bottom:2px solid var(--thline);white-space:nowrap;box-shadow:0 5px 7px -5px rgba(0,0,0,.20)}
@@ -261,6 +262,45 @@
     .must{font-size:12.5px;padding:8px 11px}
     .legend{display:none}
   }
+
+  /* ── tab bar (Platforms | Agent Tools) ───────────────────────────── */
+  .tabs{display:flex;gap:6px;margin:22px 0 -6px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tab{appearance:none;border:0;background:none;cursor:pointer;font:inherit;color:var(--mut);
+    font-weight:700;font-size:15px;letter-spacing:-.01em;padding:11px 16px 13px;border-radius:10px 10px 0 0;
+    display:flex;align-items:center;gap:9px;position:relative;transition:color .15s,background .15s}
+  .tab svg{width:17px;height:17px;opacity:.85}
+  .tab:hover{color:var(--txt);background:color-mix(in srgb,var(--panel) 60%,transparent)}
+  .tab.on{color:var(--txt)}
+  .tab.on::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2.5px;border-radius:3px;
+    background:linear-gradient(90deg,var(--accentA),var(--accentB))}
+  .tab .tabn{font-size:11px;font-weight:800;color:var(--mut2);background:color-mix(in srgb,var(--accentB) 16%,transparent);
+    border:1px solid var(--line);padding:1px 7px;border-radius:20px;line-height:1.5}
+  .tab.on .tabn{color:var(--accentB)}
+  .view[hidden]{display:none}
+
+  /* category badge (Agent Tools) — colored chip per tool category */
+  .catbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.01em;
+    padding:3px 9px;border-radius:20px;white-space:nowrap;border:1px solid;line-height:1.5}
+  .catbadge svg{width:12px;height:12px}
+  .cat-web{color:#2563eb;background:color-mix(in srgb,#2563eb 12%,transparent);border-color:color-mix(in srgb,#2563eb 30%,transparent)}
+  .cat-computer{color:#0d9488;background:color-mix(in srgb,#0d9488 12%,transparent);border-color:color-mix(in srgb,#0d9488 30%,transparent)}
+  .cat-memory{color:#7c3aed;background:color-mix(in srgb,#7c3aed 12%,transparent);border-color:color-mix(in srgb,#7c3aed 30%,transparent)}
+  .cat-coding{color:#d97706;background:color-mix(in srgb,#d97706 12%,transparent);border-color:color-mix(in srgb,#d97706 30%,transparent)}
+  .cat-skills{color:#db2777;background:color-mix(in srgb,#db2777 12%,transparent);border-color:color-mix(in srgb,#db2777 30%,transparent)}
+  .cat-security{color:#dc2626;background:color-mix(in srgb,#dc2626 12%,transparent);border-color:color-mix(in srgb,#dc2626 30%,transparent)}
+  .cat-router{color:#0891b2;background:color-mix(in srgb,#0891b2 12%,transparent);border-color:color-mix(in srgb,#0891b2 30%,transparent)}
+  .cat-monitoring{color:#65a30d;background:color-mix(in srgb,#65a30d 12%,transparent);border-color:color-mix(in srgb,#65a30d 30%,transparent)}
+  :root[data-theme="dark"] .cat-web{color:#7eb0ff}:root[data-theme="dark"] .cat-computer{color:#5eead4}
+  :root[data-theme="dark"] .cat-memory{color:#c4a6ff}:root[data-theme="dark"] .cat-coding{color:#fbbf24}
+  :root[data-theme="dark"] .cat-skills{color:#f9a8d4}:root[data-theme="dark"] .cat-security{color:#fca5a5}
+  :root[data-theme="dark"] .cat-router{color:#67e8f9}:root[data-theme="dark"] .cat-monitoring{color:#bef264}
+  /* setup (install) cell — monospace, clamped */
+  .setupcell{text-align:left}
+  .setupcell code{font:11px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--mut);
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+  .twcell{text-align:left;font-size:11.5px;color:var(--mut);line-height:1.4}
+  .twclamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .typecell{text-align:left;font-size:11.5px;color:var(--txt);font-weight:600;line-height:1.35}
 </style>
 </head>
 <body>
@@ -288,6 +328,18 @@
   </div>
 </nav>
 <div class="wrap" id="top">
+  <div class="tabs" role="tablist" aria-label="Listings">
+    <button class="tab on" data-tab="platforms" role="tab" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+      Platforms <span class="tabn" id="tabn-platforms"></span>
+    </button>
+    <button class="tab" data-tab="tools" role="tab" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.7 2.7-2-2 2.7-2.7z"/></svg>
+      Agent Tools <span class="tabn" id="tabn-tools"></span>
+    </button>
+  </div>
+
+  <section id="view-platforms" class="view">
   <header class="hero">
     <span class="eyebrow"><span class="dot"></span> Updated June 20, 2026 · live comparison · <b id="pcount" style="color:var(--txt);font-weight:700;letter-spacing:.08em"></b></span>
     <h1>The open index of <span class="g">self-hosted AI agent platforms</span></h1>
@@ -352,6 +404,50 @@
     </div>
   </div>
   <div class="cards" id="cards"></div>
+  </section>
+
+  <section id="view-tools" class="view" hidden>
+    <header class="hero">
+      <span class="eyebrow"><span class="dot"></span> Agent add-ons &amp; utilities · <b id="tcountEy" style="color:var(--txt);font-weight:700;letter-spacing:.08em"></b></span>
+      <h1>The toolbox for <span class="g">AI coding agents</span></h1>
+      <p class="sub">Open-source <b>tools that plug into</b> the agents you already run — memory, computer-use, web access, skills, model routing, security scanning &amp; monitoring. Drop-in add-ons (MCP servers, CLIs, skill packs, gateways) that make Claude Code, Cursor, Codex &amp; friends do more. Seeded from the community's “best free agent tools” lists.</p>
+    </header>
+
+    <div class="bar">
+      <div style="color:var(--mut);font-size:13px">↑ Filter by category · click a <b style="color:var(--txt);font-weight:600">row</b> to expand its full detail, install command &amp; what users say</div>
+      <div style="display:flex;gap:10px;align-items:center;flex:1;justify-content:flex-end;flex-wrap:wrap">
+        <button id="tresetF" class="resetf" hidden>✕ Clear filters</button>
+        <div class="search"><input id="tq" type="search" placeholder="Search tools…" /></div>
+      </div>
+    </div>
+
+    <div class="stats" id="tstats"></div>
+
+    <div class="tablecard">
+      <div class="scroll">
+        <table>
+          <colgroup>
+            <col class="cg-exp"><col class="cg-rank"><col class="cg-name"><col class="cg-cat"><col class="cg-cost"><col class="cg-type"><col class="cg-tw"><col class="cg-m"><col class="cg-setup">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="c-exp" aria-hidden="true"></th>
+              <th class="c-rank" aria-hidden="true"></th>
+              <th class="c-name l" title="Tool name + current GitHub stars (popularity)">Tool <button id="tstarSort" class="starsort" type="button" title="Sort by GitHub stars — click to toggle ▼ most → ▲ fewest → A–Z"><span class="st2">★</span> stars <span class="sarrow">⇅</span></button></th>
+              <th title="Category — what kind of agent capability it adds"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span>Category</span></span></th>
+              <th title="Cost / license"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L3 12V3h9l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg><span>Cost</span></span></th>
+              <th class="l" title="How it plugs into an agent (MCP server, CLI, skill pack, gateway, desktop app…)"><span class="hhl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1.5-1.5"/></svg>Type</span></th>
+              <th class="l" title="Which agents / clients it works with"><span class="hhl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8"/></svg>Works with</span></th>
+              <th title="Self-hosted — runs entirely on your own machine"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg><span>Self-host</span></span></th>
+              <th class="l" title="Primary install / run command"><span class="hhl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>Setup</span></th>
+            </tr>
+          </thead>
+          <tbody id="trows"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="cards" id="tcards"></div>
+  </section>
 
   <footer>
     <p><b style="color:var(--txt)">How to read this.</b> Platforms are <b style="color:var(--txt)">listed alphabetically</b> — no personal ranking; click any row to expand its full detail, and use the tiles to filter. <b style="color:var(--txt)">★ stars</b> next to each name are current GitHub stargazers (a rough popularity signal); closed-source products show <span class="stars none" style="font-size:10px">— ☆</span>. The <b style="color:var(--txt)">Bottom line</b> is a neutral summary of real user sentiment (from Reddit, Hacker News, GitHub &amp; reviews — praise + main gripe), refreshed periodically; very new tools are flagged as having little feedback yet. “Multiple logins” = isolate separate Claude/agent subscriptions per project. <b style="color:var(--txt)">Self-hosted</b> ✓ = runs entirely on your own machines (not the vendor's servers) — free-but-cloud-only scores ➖/~. <b style="color:var(--txt)">Mobile</b>: <span class="mark mk-y" style="width:18px;height:18px">✓</span> dedicated app or mobile-first · <span class="mark mk-p" style="width:18px;height:18px">~</span> usable from a mobile browser, no native app · <span class="mark mk-n" style="width:18px;height:18px">–</span> desktop / SSH only.</p>
@@ -715,6 +811,159 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   if(dark){document.documentElement.removeAttribute('data-theme');try{localStorage.setItem('aa-theme','light')}catch(e){}}
   else{document.documentElement.setAttribute('data-theme','dark');try{localStorage.setItem('aa-theme','dark')}catch(e){}}
 });
+
+/* ════════════════════════════════════════════════════════════════════
+   AGENT TOOLS tab — a second listing of drop-in tools for coding agents.
+   Reuses the platform helpers (starsEl, costCell, markSym, CHEV, EXT, noteTd).
+   ════════════════════════════════════════════════════════════════════ */
+const CAT={
+  web:{label:'Web access',cls:'cat-web',icon:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/>'},
+  computer:{label:'Computer use',cls:'cat-computer',icon:'<rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>'},
+  memory:{label:'Memory',cls:'cat-memory',icon:'<rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 3v2M15 3v2M9 19v2M15 19v2M3 9h2M3 15h2M19 9h2M19 15h2"/>'},
+  coding:{label:'Coding harness',cls:'cat-coding',icon:'<path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13.5 7l-3 10"/>'},
+  skills:{label:'Skills',cls:'cat-skills',icon:'<path d="M12 2.5l2.6 5.7 6.2.6-4.7 4.1 1.4 6.1L12 16l-5.5 3.1 1.4-6.1L3.2 8.8l6.2-.6z"/>'},
+  security:{label:'Security',cls:'cat-security',icon:'<path d="M12 3l8 3v6c0 4.5-3.2 7.5-8 9-4.8-1.5-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>'},
+  router:{label:'Model router',cls:'cat-router',icon:'<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M8.5 6H14a2 2 0 012 2v2M8.5 18H14a2 2 0 002-2v-2"/>'},
+  monitoring:{label:'Monitoring',cls:'cat-monitoring',icon:'<path d="M3 12h4l3 8 4-16 3 8h4"/>'}
+};
+function catBadge(k){const c=CAT[k]||CAT.web;return `<span class="catbadge ${c.cls}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${c.icon}</svg>${c.label}</span>`;}
+
+const TOOLS=[
+{"name":"Agent Reach","url":"https://github.com/Panniantong/Agent-Reach","link":"GitHub","cat":"web","cost":{"t":"free","label":"Free","price":"MIT · open source"},"type":"CLI + Skill","worksWith":"Claude Code, Cursor, Windsurf, OpenClaw — any shell-capable agent","selfHost":{"s":"yes","note":"Runs locally; cookies stay on your machine"},"setup":"npx skills add Panniantong/Agent-Reach@agent-reach","stars":36568,"icon":"icons/agent-reach.jpg","summary":"Gives an agent read & search access to the web and social platforms (X, Reddit, YouTube, GitHub, Bilibili…) through one CLI, without paid platform APIs.","verdict":"Exploded in popularity (Trendshift #1) for giving agents free web/social reads with no per-API fees and local cookies. Caveat: it's largely a wrapper around third-party CLIs/MCPs, so reliability rides on those upstreams and on cookie/proxy setup for gated sites; it's read-only."},
+{"name":"Cua","url":"https://cua.ai","link":"cua.ai","cat":"computer","cost":{"t":"free","label":"Free","price":"MIT · open source (managed cloud optional)"},"type":"SDK · CLI · MCP","worksWith":"Claude Code, Cursor, Codex, OpenClaw + any MCP client","selfHost":{"s":"yes","note":"Local QEMU/VM runtime; managed cloud optional"},"setup":"pip install cua","stars":18573,"icon":"icons/cua.ico","summary":"Open-source infrastructure for computer-use agents: agent-ready OS sandboxes, a background desktop driver/MCP, macOS/Linux VM virtualization and benchmarks.","verdict":"Well-liked as a genuinely open, OS-agnostic computer-use sandbox stack, with standout Apple-Silicon macOS virtualization and a 'background' driver that doesn't hijack your cursor. Gripe: VM/QEMU setup is heavy and Linux driver support is still pre-release."},
+{"name":"AgentMemory","url":"https://agent-memory.dev","link":"agent-memory.dev","cat":"memory","cost":{"t":"free","label":"Free","price":"Apache-2.0 · open source"},"type":"MCP · library · hooks","worksWith":"Claude Code, Codex, Copilot, Cursor, Cline, Gemini CLI, OpenCode, Aider + any MCP","selfHost":{"s":"yes","note":"Local server on :3111, no external database"},"setup":"npx @agentmemory/agentmemory","stars":23593,"icon":"icons/agentmemory.png","summary":"A self-hosted persistent-memory server for coding agents that stores & retrieves project context via MCP tools, hooks and REST — no external database.","verdict":"Fast-rising for its zero-external-DB local memory and very broad agent coverage. Caveat: the headline benchmark numbers (95% recall, ~92% fewer tokens) are self-reported, durable third-party reviews are still thin, and Windows needs WSL2."},
+{"name":"LazyCodex","url":"https://lazycodex.ai","link":"lazycodex.ai","cat":"coding","cost":{"t":"free","label":"Free","price":"MIT · open source"},"type":"Plugin (Codex CLI)","worksWith":"OpenAI Codex (Codex CLI)","selfHost":{"s":"yes","note":"Installs into your local ~/.codex"},"setup":"npx lazycodex-ai install","stars":1679,"icon":"icons/lazycodex.jpg","summary":"An agent harness that adds project memory, planning, execution and verified-completion workflows inside OpenAI Codex.","verdict":"Too new for real user feedback; rides the hype of its parent OmO harness. Likely trade-off: thorough, Oracle-verified completions versus heavy token burn — and it's Codex-only."},
+{"name":"Agent Skills","url":"https://github.com/addyosmani/agent-skills","link":"GitHub","cat":"skills","cost":{"t":"free","label":"Free","price":"MIT · open source"},"type":"Skill pack + plugin","worksWith":"Claude Code, Cursor, Gemini CLI, Windsurf, OpenCode, Copilot, Antigravity, Codex","selfHost":{"s":"yes","note":"Markdown skills/commands, run locally"},"setup":"/plugin marketplace add addyosmani/agent-skills","stars":64583,"icon":"icons/agent-skills.png","summary":"A pack of production-grade engineering skills and lifecycle slash-commands (/spec, /plan, /build, /test, /review, /ship) that make coding agents follow senior-engineer workflows.","verdict":"Trending hard behind a well-known author (Addy Osmani); the structured spec→plan→build→ship workflow and quality gates are the draw. Main gripe with skill packs like this: process overhead and token cost on small tasks."},
+{"name":"SkillSpector","url":"https://github.com/NVIDIA/SkillSpector","link":"GitHub","cat":"security","cost":{"t":"free","label":"Free","price":"Apache-2.0 · open source (NVIDIA)"},"type":"CLI scanner","worksWith":"Audits skills for Claude Code, Codex, Gemini CLI (a scanner, not an integration)","selfHost":{"s":"yes","note":"Runs fully local; LLM stage optional"},"setup":"git clone NVIDIA/SkillSpector && make install","stars":8920,"icon":"icons/skillspector.png","summary":"A security scanner that analyzes AI agent skills for vulnerabilities and malicious patterns (prompt injection, data exfiltration, MCP tool poisoning) with a 0–100 risk score.","verdict":"NVIDIA-backed and timely — flags prompt-injection, exfiltration and MCP tool-poisoning across 64 patterns. Too new for broad feedback; expect the usual static-analysis false positives unless you enable the optional LLM stage (needs an API key)."},
+{"name":"PM Skills","url":"https://github.com/phuryn/pm-skills","link":"GitHub","cat":"skills","cost":{"t":"free","label":"Free","price":"MIT · open source"},"type":"Skill pack + plugin","worksWith":"Claude Code, Claude Cowork, Codex · skills-only: Gemini CLI, OpenCode, Cursor, Kiro","selfHost":{"s":"yes","note":"Markdown skill/command files, run locally"},"setup":"claude plugin marketplace add phuryn/pm-skills","stars":20240,"icon":"icons/pm-skills.jpg","summary":"A marketplace of agentic PM skills, slash-commands and plugins that encode established product-management frameworks into guided, step-by-step agent workflows.","verdict":"Popular for turning named PM frameworks (Torres, Cagan) into repeatable, step-by-step agent workflows rather than freeform prompts. Caveats: the full slash-command experience is Claude Code/Cowork-only (others get skills only), and output still depends on your model and inputs."},
+{"name":"9Router","url":"https://9router.com","link":"9router.com","cat":"router","cost":{"t":"free","label":"Free","price":"MIT · open source"},"type":"Gateway / proxy","worksWith":"Claude Code, Codex, Cursor, Cline, Copilot, Antigravity, Gemini, OpenCode, OpenClaw","selfHost":{"s":"yes","note":"Runs locally; optional Docker self-host"},"setup":"npm install -g 9router","stars":18121,"icon":"icons/9router.png","summary":"A free local model router/gateway that connects coding agents to 40+ providers and 100+ models with auto-fallback and a token-reduction layer.","verdict":"Trending on the 'never hit limits' pitch — free-model routing with auto-fallback and 20–40% token savings across 40+ providers. Honest caveat: the full app package is private (you run the router/config), and quality hinges on those free upstream providers."},
+{"name":"AgentPet","url":"https://ntd4996.github.io/agentpet/","link":"agentpet","cat":"monitoring","cost":{"t":"free","label":"Free","price":"MIT · open source"},"type":"Desktop app","worksWith":"Claude Code, Codex, Gemini CLI, Cursor, OpenCode, Windsurf, Antigravity","selfHost":{"s":"yes","note":"Runs fully offline; GitHub sign-in optional"},"setup":"brew install --cask ntd4996/tap/agentpet","stars":248,"icon":"icons/agentpet.png","summary":"A macOS/Windows desktop-pet and menu-bar monitor that watches your AI coding agents in real time — working / done / waiting — and gamifies your sessions.","verdict":"Niche but charming — a tamagotchi-style menu-bar pet that shows which of your parallel agents are working/done/waiting, so you stop tab-hunting. Caveats: macOS-first (the Windows build is early and unsigned; Linux only via a community port) and no 'needs input' detection for Cursor/Windsurf/Antigravity."}
+];
+
+let tsortMode='alpha';
+function sortedTools(){
+  const a=TOOLS.slice();
+  if(tsortMode==='stars-desc') a.sort((x,y)=>(y.stars==null?-1:y.stars)-(x.stars==null?-1:x.stars));
+  else if(tsortMode==='stars-asc') a.sort((x,y)=>(x.stars==null?Infinity:x.stars)-(y.stars==null?Infinity:y.stars));
+  else a.sort((x,y)=>x.name.toLowerCase().localeCompare(y.name.toLowerCase()));
+  return a;
+}
+function toolDetail(t){
+  return `<tr class="drow drow-notes" hidden>
+    <td class="userssay" colspan="3"><div class="ussay"><p>${t.summary} <button class="us-toggle" type="button">Users say ▾</button></p><div class="us-body" hidden>${t.verdict}</div></div></td>
+    <td class="dncell"><span class="dntext">${CAT[t.cat].label}</span></td>
+    <td class="dncell"><span class="dntext">${t.cost.price}</span></td>
+    <td class="dncell"><span class="dntext">${t.type}</span></td>
+    <td class="dncell"><span class="dntext">${t.worksWith}</span></td>
+    ${noteTd(t.selfHost)}
+    <td class="dncell setupcell"><code>${t.setup}</code></td>
+  </tr>`;
+}
+function renderTools(list){
+  document.getElementById('trows').innerHTML=list.map((t,idx)=>{
+    const i=TOOLS.indexOf(t);
+    return `<tr class="prow${idx%2?' alt':''}" data-i="${i}" tabindex="0" role="button" aria-expanded="false">
+      <td class="c-exp"><span class="chev">${CHEV}</span></td>
+      <td class="c-rank"><img class="favic" src="${t.icon}" alt="" loading="lazy"></td>
+      <td class="c-name"><div class="pname">${t.name} ${starsEl(t)}</div>
+        <a class="plink" href="${t.url}" target="_blank" rel="noopener">${t.link} ${EXT}</a></td>
+      <td>${catBadge(t.cat)}</td>
+      <td>${costCell(t.cost)}</td>
+      <td class="typecell">${t.type}</td>
+      <td class="twcell"><div class="twclamp">${t.worksWith}</div></td>
+      <td>${markSym(t.selfHost)}</td>
+      <td class="setupcell"><code>${t.setup}</code></td>
+    </tr>
+    ${toolDetail(t)}`;
+  }).join('');
+  const cm=c=>({yes:['y','✓'],partial:['p','~'],no:['n','–']}[(c||{s:'no'}).s]||['n','–']);
+  document.getElementById('tcards').innerHTML=list.map(t=>{const a=cm(t.selfHost);return `<div class="card" data-i="${TOOLS.indexOf(t)}">
+      <div class="chead">
+        <img class="favic" src="${t.icon}" alt="" loading="lazy">
+        <div class="cmain"><div class="cnm">${t.name} ${starsEl(t)}</div><a class="clink" href="${t.url}" target="_blank" rel="noopener">${t.link} ↗</a></div>
+        <span class="cbadge ${t.cost.t}">${t.cost.label}</span>
+        <span class="chev cchev">${CHEV}</span></div>
+      <div class="ccaps">${catBadge(t.cat)} <span class="cap"><span class="m ${a[0]}">${a[1]}</span>Self-host</span></div>
+      <div class="cdetail" hidden>
+        <div class="cdep"><b>Type:</b> ${t.type}</div>
+        <div class="cdep"><b>Works with:</b> ${t.worksWith}</div>
+        <div class="cdep"><b>Setup:</b> <code>${t.setup}</code></div>
+        <div class="cvd"><b>Bottom line:</b> ${t.verdict}</div>
+      </div>
+    </div>`;}).join('');
+  document.getElementById('count').textContent=`Showing ${list.length} of ${TOOLS.length} tools.`;
+}
+const tactive=new Set(); let tQ='';
+function applyTools(){
+  const all=sortedTools();
+  const list=all.filter(t=>{
+    if(tactive.size && !tactive.has(t.cat))return false;
+    if(tQ && !(t.name+' '+t.type+' '+t.worksWith+' '+t.summary+' '+t.verdict+' '+CAT[t.cat].label).toLowerCase().includes(tQ))return false;
+    return true;
+  });
+  renderTools(list);
+  document.querySelectorAll('#tstats [data-c]').forEach(x=>x.classList.toggle('on',tactive.has(x.dataset.c)));
+  const r=document.getElementById('tresetF'); if(r)r.hidden=tactive.size===0;
+}
+// category filter tiles (live counts)
+(function(){
+  const order=['web','computer','memory','coding','skills','security','router','monitoring'];
+  const n=c=>TOOLS.filter(t=>t.cat===c).length;
+  const stats=document.getElementById('tstats');
+  stats.innerHTML=order.filter(n).map(c=>
+    `<div class="stat" data-c="${c}"><span class="fic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${CAT[c].icon}</svg></span><b>${n(c)}</b><span>${CAT[c].label}</span></div>`).join('');
+  stats.addEventListener('click',e=>{const t=e.target.closest('[data-c]');if(!t)return;
+    const c=t.dataset.c; tactive.has(c)?tactive.delete(c):tactive.add(c); applyTools();});
+})();
+document.getElementById('tq').addEventListener('input',e=>{tQ=e.target.value.trim().toLowerCase();applyTools();});
+document.getElementById('tresetF').addEventListener('click',()=>{tactive.clear();applyTools();});
+// tools star sort
+(function(){
+  const btn=document.getElementById('tstarSort'), ar=btn.querySelector('.sarrow');
+  btn.addEventListener('click',()=>{
+    tsortMode = tsortMode==='alpha'?'stars-desc' : tsortMode==='stars-desc'?'stars-asc' : 'alpha';
+    btn.classList.toggle('on', tsortMode!=='alpha');
+    ar.textContent = tsortMode==='stars-desc'?'▼' : tsortMode==='stars-asc'?'▲' : '⇅';
+    applyTools();
+  });
+})();
+// tools accordion (rows + cards) — same behavior as the platforms table
+(function(){
+  const tb=document.getElementById('trows');
+  function setD(tr,show){let n=tr.nextElementSibling;while(n&&n.classList.contains('drow')){n.hidden=!show;n=n.nextElementSibling;}}
+  function toggle(tr){ if(!tr.nextElementSibling||!tr.nextElementSibling.classList.contains('drow'))return;
+    const willOpen=!tr.classList.contains('open');
+    tb.querySelectorAll('.prow.open').forEach(r=>{r.classList.remove('open');r.setAttribute('aria-expanded','false');setD(r,false);});
+    if(willOpen){tr.classList.add('open');tr.setAttribute('aria-expanded','true');setD(tr,true);} }
+  tb.addEventListener('click',e=>{ if(e.target.closest('a'))return;
+    const ut=e.target.closest('.us-toggle'); if(ut){const b=ut.closest('.ussay').querySelector('.us-body');const show=b.hidden;b.hidden=!show;ut.classList.toggle('on',show);return;}
+    const tr=e.target.closest('.prow'); if(tr)toggle(tr); });
+  tb.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ')return; const tr=e.target.closest('.prow'); if(tr){e.preventDefault();toggle(tr);} });
+  const tc=document.getElementById('tcards');
+  tc.addEventListener('click',e=>{ if(e.target.closest('a'))return; const head=e.target.closest('.chead'); if(!head)return;
+    const card=head.closest('.card'),det=card.querySelector('.cdetail'),willOpen=!card.classList.contains('open');
+    tc.querySelectorAll('.card.open').forEach(c=>{c.classList.remove('open');const d=c.querySelector('.cdetail');if(d)d.hidden=true;});
+    if(willOpen){card.classList.add('open');if(det)det.hidden=false;} });
+})();
+
+/* ── tab switching (Platforms | Agent Tools) + deep-link ─────────────── */
+const VIEWS={platforms:document.getElementById('view-platforms'),tools:document.getElementById('view-tools')};
+const TABS=document.querySelectorAll('.tab');
+document.getElementById('tabn-platforms').textContent=PLATFORMS.length;
+document.getElementById('tabn-tools').textContent=TOOLS.length;
+document.getElementById('tcountEy').textContent=TOOLS.length+' tools';
+function showTab(name){
+  if(!VIEWS[name])name='platforms';
+  for(const k in VIEWS) VIEWS[k].hidden=(k!==name);
+  TABS.forEach(b=>{const on=b.dataset.tab===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');});
+  // each tab owns the footer "count" line — repaint it for the active list
+  if(name==='tools')applyTools(); else apply();
+  try{const u=new URL(location.href);history.replaceState(null,'',u.pathname+u.search+(name==='tools'?'#tools':''));}catch(e){}
+  try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){}
+}
+TABS.forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+applyTools();   // render tools once up front (cheap) so deep-links & search are instant
+showTab((location.hash||'').replace('#','')==='tools'?'tools':'platforms');
 </script>
 </body>
 </html>

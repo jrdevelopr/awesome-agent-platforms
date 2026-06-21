@@ -8,6 +8,9 @@ fs.mkdirSync(ICONS,{recursive:true});
 const FILE=path.join(ROOT,'site','index.html');
 let html=fs.readFileSync(FILE,'utf8');
 const arr=JSON.parse(html.match(/const PLATFORMS=(\[[\s\S]*?\n\]);/)[1]);
+// TOOLS may be a hand-written JS literal (unquoted keys) on first run, or JSON after we
+// rewrite it — eval handles both. (Trusted local source file.)
+const tarr=(()=>{const m=html.match(/const TOOLS=(\[[\s\S]*?\n\]);/);return m?Function('return ('+m[1]+')')():null;})();
 
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 // map true content-type -> file extension. Naming the saved file by DETECTED mime
@@ -32,9 +35,13 @@ function candidates(p){
       const owner=u.pathname.split('/').filter(Boolean)[0];
       return [`https://github.com/${owner}.png?size=120`];
     }
+    if(u.hostname.endsWith('.github.io')){            // GitHub Pages — use the owner's avatar
+      const owner=u.hostname.split('.')[0];
+      return [`https://github.com/${owner}.png?size=120`];
+    }
     const d=u.hostname.replace(/^www\./,'');
     return [`https://${d}/favicon.ico`,`https://${d}/favicon.png`,
-            `https://icons.duckduckgo.com/ip3/${d}.ico`];
+            `https://${d}/favicon.svg`,`https://icons.duckduckgo.com/ip3/${d}.ico`];
   }catch(e){ return []; }
 }
 // deterministic color from name
@@ -46,27 +53,37 @@ function svgTile(name){
 }
 
 let fetched=0, svg=0;
-for(const p of arr){
-  const s=slug(p.name);
-  if(p.icon && fs.existsSync(path.join(ROOT,'site',p.icon))){ console.log(`  ${p.name.padEnd(14)} -> keep ${p.icon}`); continue; } // don't clobber good/manual icons
-  let saved=null;
-  const tmp=path.join(ICONS,`.${s}.tmp`);
-  for(const url of candidates(p)){
-    const ext=tryFetch(url,tmp);                 // null, or the TRUE extension by mime
-    if(ext){
-      const out=path.join(ICONS,`${s}.${ext}`);
-      fs.renameSync(tmp,out);
-      saved=`icons/${s}.${ext}`; fetched++; break;
+function processList(list,label){
+  console.log(`\n[${label}]`);
+  for(const p of list){
+    const s=slug(p.name);
+    if(p.icon && fs.existsSync(path.join(ROOT,'site',p.icon))){ console.log(`  ${p.name.padEnd(16)} -> keep ${p.icon}`); continue; } // don't clobber good/manual icons
+    let saved=null;
+    const tmp=path.join(ICONS,`.${s}.tmp`);
+    for(const url of candidates(p)){
+      const ext=tryFetch(url,tmp);                 // null, or the TRUE extension by mime
+      if(ext){
+        const out=path.join(ICONS,`${s}.${ext}`);
+        fs.renameSync(tmp,out);
+        saved=`icons/${s}.${ext}`; fetched++; break;
+      }
     }
+    if(!saved){
+      fs.writeFileSync(path.join(ICONS,`${s}.svg`), svgTile(p.name));
+      saved=`icons/${s}.svg`; svg++;
+    }
+    p.icon=saved;
+    console.log(`  ${p.name.padEnd(16)} -> ${saved}`);
   }
-  if(!saved){
-    fs.writeFileSync(path.join(ICONS,`${s}.svg`), svgTile(p.name));
-    saved=`icons/${s}.svg`; svg++;
-  }
-  p.icon=saved;
-  console.log(`  ${p.name.padEnd(14)} -> ${saved}`);
 }
-const lit='[\n'+arr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
-html=html.replace(/const PLATFORMS=\[[\s\S]*?\n\];/,'const PLATFORMS='+lit+';');
+processList(arr,'PLATFORMS');
+if(tarr)processList(tarr,'TOOLS');
+
+const litP='[\n'+arr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
+html=html.replace(/const PLATFORMS=\[[\s\S]*?\n\];/,'const PLATFORMS='+litP+';');
+if(tarr){
+  const litT='[\n'+tarr.map(o=>JSON.stringify(o)).join(',\n')+'\n]';
+  html=html.replace(/const TOOLS=\[[\s\S]*?\n\];/,'const TOOLS='+litT+';');
+}
 fs.writeFileSync(FILE,html);
-console.log(`\nReal favicons: ${fetched} · SVG fallbacks: ${svg} · total ${arr.length}`);
+console.log(`\nReal favicons: ${fetched} · SVG fallbacks: ${svg} · platforms ${arr.length}${tarr?` · tools ${tarr.length}`:''}`);
