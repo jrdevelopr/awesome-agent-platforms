@@ -8,6 +8,10 @@ Public one-page comparison of self-hosted (and notable paid) AI agent platforms.
 - **Bring up:** `cd ~/apps/agents && docker compose -p agents up -d`
 - **Caddy route:** `~/server-setup/caddy/apps.d/agents.caddy` — **no `import gate`** (deliberately open).
 
+> **Skill:** invoke the **`agents-site`** skill (`~/.claude/skills/agents-site/SKILL.md`) when
+> adding/editing any tab entry — it has the exact per-tab schema, enum maps, render harness and
+> the full board→icons→stars→verify→commit workflow.
+
 ## Editing the data (the common task)
 All platform rows are a JS array `PLATFORMS` in **`site/index.html`**. To add/update a platform,
 add or edit one object (name, url, cost, ghIssues/ghProjects/prs/shell/multi as
