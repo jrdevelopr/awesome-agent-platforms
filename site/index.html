@@ -231,6 +231,7 @@
   .mdl-link{font-size:11px;font-weight:600;white-space:nowrap;margin-left:2px}
   /* deploy column (free text) */
   .depcell{text-align:left;font-size:11.5px;color:var(--mut);line-height:1.4}
+  .depclamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
   @media(max-width:1179px){ .tablecard{display:none} .cards{display:grid} }
   @media(min-width:600px) and (max-width:1179px){ .cards{grid-template-columns:1fr 1fr} }
@@ -440,7 +441,7 @@ function detailRows(p){
   const notes=`<tr class="drow drow-notes" hidden>
     <td class="userssay" colspan="4"><div class="ussay"><p>${p.summary}</p></div></td>
     <td class="dncell mdldetail">${modelsDetail(p)}</td>
-    ${noteTd(p.selfHosted)}<td></td>${noteTd(p.ghIssues)}${noteTd(p.ghProjects)}${noteTd(p.prs)}${noteTd(p.shell)}${noteTd(p.mobile)}${noteTd(p.desktop)}
+    ${noteTd(p.selfHosted)}<td class="dncell"><span class="dntext">${p.deploy}</span></td>${noteTd(p.ghIssues)}${noteTd(p.ghProjects)}${noteTd(p.prs)}${noteTd(p.shell)}${noteTd(p.mobile)}${noteTd(p.desktop)}
   </tr>`;
   // (2) neutral overall summary (no title, faint divider above) — kept user-free
   const summary=`<tr class="drow drow-sum" hidden><td colspan="13"><div class="dsum">
@@ -459,7 +460,7 @@ function render(list){
       <td>${costCell(p.cost)}</td>
       ${modelsCell(p)}
       <td>${markSym(p.selfHosted)}</td>
-      <td class="depcell">${p.deploy}</td>
+      <td class="depcell"><div class="depclamp">${p.deploy}</div></td>
       <td>${markSym(p.ghIssues)}</td>
       <td>${markSym(p.ghProjects)}</td>
       <td>${markSym(p.prs)}</td>
