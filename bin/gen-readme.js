@@ -29,7 +29,7 @@ const cost = c => c.t === 'paid' ? `💲 **Paid** <br><sub>${esc(c.price)}</sub>
               : `Free <br><sub>${esc(c.price)}</sub>`;
 
 const header = `<!-- This file is AUTO-GENERATED from site/index.html by bin/gen-readme.js. Do not edit by hand. -->
-# AI Builders Toolkit [![Awesome](https://awesome.re/badge-flat2.svg)](https://awesome.re)
+# AI Builders Toolkit
 
 [![Live site](https://img.shields.io/badge/live-agents.jrdevelopr.site-2563eb?logo=googlechrome&logoColor=white)](https://agents.jrdevelopr.site) [![Platforms](https://img.shields.io/badge/platforms-${P.length}-0e9f6e)](https://agents.jrdevelopr.site) [![Auto-updated weekly](https://img.shields.io/badge/auto--updated-weekly-7c3aed)](bin/discover.sh) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
@@ -74,7 +74,7 @@ The table is generated from the data in **[\`site/index.html\`](site/index.html)
 array). A weekly bot scans curated lists of new agent platforms, adds any that are missing, re-ranks,
 and regenerates both the live site and this README — so they never drift.
 
-**Suggest a platform:** [open an issue](https://github.com/jrdevelopr/awesome-ai-builders-toolkit/issues/new?title=Suggest%20a%20platform:%20).
+**Suggest a platform:** [open an issue](https://github.com/jrdevelopr/ai-builders-toolkit/issues/new?title=Suggest%20a%20platform:%20).
 
 <sub>Ratings are based on official docs/repos; “➖”/“🟡” are used instead of guessing. Projects = the platform's own
 project/task board or PM-tool integration (Linear, Jira, GitHub Projects). Prices are list-price estimates and change often — verify before buying.
