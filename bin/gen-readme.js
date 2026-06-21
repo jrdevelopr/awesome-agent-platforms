@@ -54,7 +54,7 @@ const stars = n => n==null ? '—'
   : n>=1e6 ? (n/1e6).toFixed(1).replace(/\.0$/,'')+'M'
   : n>=1e4 ? Math.round(n/1e3)+'k'
   : n>=1e3 ? (n/1e3).toFixed(1).replace(/\.0$/,'')+'k' : ''+n;
-const cols = ['#','Platform','★ Stars','Cost','Self-hosted','GitHub Issues','GH Projects','PRs / push','One-click shell',
+const cols = ['#','Platform','★ Stars','Cost','Self-hosted','GitHub Issues','Projects','PRs / push','One-click shell',
   'Multiple logins','Mobile','Agents / models','Bottom line (what users say)'];
 let rows = `| ${cols.join(' | ')} |\n|${cols.map(()=>'---').join('|')}|\n`;
 P.forEach((p, i) => {
@@ -71,8 +71,8 @@ and regenerates both the live site and this README — so they never drift.
 
 **Suggest a platform:** [open an issue](https://github.com/jrdevelopr/awesome-agent-platforms/issues/new?title=Suggest%20a%20platform:%20).
 
-<sub>Ratings are based on official docs/repos; “➖”/“🟡” are used instead of guessing. GitHub Projects = GitHub's
-boards, not a product's internal Kanban. Prices are list-price estimates and change often — verify before buying.
+<sub>Ratings are based on official docs/repos; “➖”/“🟡” are used instead of guessing. Projects = the platform's own
+project/task board or PM-tool integration (Linear, Jira, GitHub Projects). Prices are list-price estimates and change often — verify before buying.
 This is a personal, independent comparison, free to share.</sub>
 `;
 

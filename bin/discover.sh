@@ -34,9 +34,13 @@ RULES:
    {"s":"yes|partial|no","note":"..."}). EVERY field present: name,url,link,cost{t,label,price},
    selfHosted, ghIssues, ghProjects, prs, shell, multi, mobile, desktop (all as {s,note}),
    agents (concise string e.g. "Claude, Codex + many more"), agentsCnt, agentsBeyond
-   ('yes'/'partial'/'no'), deploy, verdict. **selfHosted** = can it run 100% on the user's own
-   machines (not the vendor's servers)? **desktop** = is there a native desktop app? Do NOT add a
-   `lab` field (privacy).
+   ('yes'/'partial'/'no'), deploy, verdict, summary (neutral one-line description, no sentiment),
+   stars (GitHub stargazers int or null). **selfHosted** = can it run 100% on the user's own
+   machines (not the vendor's servers)? **desktop** = is there a native desktop app? **ghIssues** =
+   whether it SYNCS GitHub issues (note just says e.g. "no issue sync"). **ghProjects** is now the
+   PROJECTS column = does the platform have its OWN project/task management (board/kanban/tickets)
+   or PM-tool integration (Linear/Jira/GitHub Projects) — NOT GitHub Projects specifically. Do NOT
+   add a `lab` field (privacy).
 3) BE ACCURATE AND CONSERVATIVE. Mark a capability 'yes' only when the project's own docs/repo
    clearly support it; otherwise 'partial' or 'no'. Mark paid products cost.t:'paid' with a price
    if known. Prefer truth over completeness — when unsure, use 'partial' or '–'.
