@@ -148,7 +148,7 @@
   th .hhl{display:inline-flex;align-items:center;gap:6px;color:var(--thtxt)}
   th .hhl svg{flex:0 0 auto;opacity:.9}
   thead th.l{text-align:left}
-  tbody td{padding:11px 8px;vertical-align:middle;text-align:center}
+  tbody td{padding:6px 8px;vertical-align:middle;text-align:center}
   .c-exp{width:30px;padding-left:12px!important}
   .c-rank{width:40px}
   th.c-name,td.c-name{text-align:left;min-width:184px}
@@ -186,12 +186,12 @@
   .stars .st{color:#f5b301;font-size:11px;line-height:1}
   .stars.none{color:var(--mut2);font-weight:600}
 
-  .cost{display:inline-flex;flex-direction:column;gap:3px;align-items:center}
+  .cost{display:flex;flex-direction:column;gap:3px;align-items:center;width:100%}
   .ct{font-size:11px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:4px 9px;border-radius:7px}
   .ct.free{background:rgba(52,211,153,.13);color:var(--free)}
   .ct.hybrid{background:rgba(91,157,255,.13);color:var(--hybrid)}
   .ct.paid{background:rgba(251,113,133,.14);color:var(--paid)}
-  .cprice{font-size:11px;color:var(--mut2)}
+  .cprice{font-size:11px;color:var(--mut2);width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .mark{width:21px;height:21px}
 
   footer{color:var(--mut);font-size:13px;padding:34px 0 60px;line-height:1.7}
@@ -439,7 +439,8 @@ function detailRows(p){
     :p.agentsBeyond==='partial'?'<span class="mark mk-p" style="width:16px;height:16px;display:inline-flex">~</span> ':'';
   // (1) per-column notes — each sits directly under its capability column
   const notes=`<tr class="drow drow-notes" hidden>
-    <td class="userssay" colspan="4"><div class="ussay"><p>${p.summary}</p></div></td>
+    <td class="userssay" colspan="3"><div class="ussay"><p>${p.summary}</p></div></td>
+    <td class="dncell costdetail"><span class="dntext">${p.cost.price}</span></td>
     <td class="dncell mdldetail">${modelsDetail(p)}</td>
     ${noteTd(p.selfHosted)}<td class="dncell"><span class="dntext">${p.deploy}</span></td>${noteTd(p.ghIssues)}${noteTd(p.ghProjects)}${noteTd(p.prs)}${noteTd(p.shell)}${noteTd(p.mobile)}${noteTd(p.desktop)}
   </tr>`;
