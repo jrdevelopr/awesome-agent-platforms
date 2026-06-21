@@ -157,19 +157,22 @@
   .prow{cursor:pointer}
   .prow>td{border-bottom:1px solid var(--line);transition:background .12s}
   .prow.alt>td{background:var(--zebra)}
-  .prow:hover>td,.prow.open>td,.prow:focus-visible>td{background:var(--rowhover)}
+  .prow.open>td{background:var(--panel2)}
+  .prow:hover>td,.prow:focus-visible>td{background:var(--rowhover)}
+  .prow.open>td{border-bottom-color:transparent}
   .prow:focus{outline:none}
   .chev{display:inline-flex;color:var(--mut2);transition:transform .18s}
   .prow.open .chev,.card.open .cchev{transform:rotate(90deg);color:var(--accentB)}
-  .drow>td{padding:0;border-bottom:1px solid var(--line)}
-  .detail{padding:15px 20px 17px;background:var(--panel2)}
-  .dcaps{display:grid;grid-template-columns:repeat(auto-fill,minmax(208px,1fr));gap:9px 16px}
-  .dchip{display:flex;gap:9px;align-items:flex-start}
-  .dchip .dcl{display:flex;flex-direction:column;gap:1px;min-width:0}
-  .dlbl{font-size:10.5px;font-weight:800;color:var(--txt);text-transform:uppercase;letter-spacing:.03em}
-  .dn{font-size:11px;color:var(--mut);line-height:1.34}
-  .dn.dnm{color:var(--mut2)}
-  .dblocks{display:grid;grid-template-columns:1fr 1fr;gap:11px 24px;margin-top:14px;padding-top:13px;
+  /* expanded detail — (1) per-column notes aligned under each capability column */
+  .drow-notes>td{background:var(--panel2);vertical-align:top;border-bottom:none;padding:2px 6px 4px}
+  .drow-notes .c-name{padding-left:8px}
+  .dhint{font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--mut2);font-weight:800}
+  .dncell{text-align:center}
+  .dntext{font-size:10.3px;line-height:1.32;color:var(--mut)}
+  .dndash{color:var(--mut2);opacity:.4}
+  /* (2) free-text summary row (agents / deploy / bottom line) */
+  .drow-sum>td{background:var(--panel2);padding:0 0 16px;border-bottom:1px solid var(--line)}
+  .dsum{display:grid;grid-template-columns:1fr 1fr;gap:11px 24px;margin:4px 20px 0;padding-top:13px;
     border-top:1px dashed var(--line)}
   .dblock.wide{grid-column:1/-1}
   .dblock h4{margin:0 0 3px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut2);font-weight:800}
@@ -291,7 +294,7 @@
       <table>
         <colgroup>
           <col class="cg-exp"><col class="cg-rank"><col class="cg-name"><col class="cg-cost">
-          <col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m">
+          <col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m"><col class="cg-m">
         </colgroup>
         <thead>
           <tr>
@@ -306,6 +309,7 @@
             <th title="One-click human shell — integrated interactive terminal"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg><span>Shell</span></span></th>
             <th title="Multiple logins — isolate separate subscriptions/accounts per project"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8"/></svg><span>Logins</span></span></th>
             <th title="Mobile — native app or mobile-web access"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 19h2"/></svg><span>Mobile</span></span></th>
+            <th title="Desktop app — native desktop client"><span class="hh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>Desktop</span></span></th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
@@ -379,24 +383,27 @@ function starsEl(p){
 function markSym(cell){const [cls,sym]=MK[(cell||{s:'no'}).s]||MK.no;return `<span class="mark ${cls}">${sym}</span>`;}
 const CHEV='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
 const EXT='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>';
-function dchip(label,cell){
-  const [cls,sym]=MK[(cell||{s:'no'}).s]||MK.no;
-  const note=cell&&cell.note?`<span class="dn">${cell.note}</span>`:'<span class="dn dnm">—</span>';
-  return `<div class="dchip"><span class="mark ${cls}" style="width:19px;height:19px">${sym}</span><div class="dcl"><span class="dlbl">${label}</span>${note}</div></div>`;
+function noteTd(cell){
+  const n=cell&&cell.note?cell.note:'';
+  return `<td class="dncell">${n?`<span class="dntext">${n}</span>`:'<span class="dndash">·</span>'}</td>`;
 }
-function detailHTML(p){
+function detailRows(p){
   const ab=p.agentsBeyond==='no'?'<span class="mark mk-n" style="width:16px;height:16px;display:inline-flex">–</span> '
     :p.agentsBeyond==='partial'?'<span class="mark mk-p" style="width:16px;height:16px;display:inline-flex">~</span> ':'';
-  return `<div class="detail">
-    <div class="dcaps">
-      ${dchip('Self-hosted',p.selfHosted)}${dchip('GitHub Issues',p.ghIssues)}${dchip('GitHub Projects',p.ghProjects)}${dchip('PRs / push',p.prs)}${dchip('One-click shell',p.shell)}${dchip('Multiple logins',p.multi)}${dchip('Mobile',p.mobile)}${dchip('Desktop app',p.desktop)}
-    </div>
-    <div class="dblocks">
-      <div class="dblock"><h4>Agents / models</h4><p>${ab}${p.agents} <span class="cnt">${p.agentsCnt}</span></p></div>
-      <div class="dblock"><h4>Deploy / fleet</h4><p>${p.deploy}</p></div>
-      <div class="dblock wide"><h4>Bottom line — what users say</h4><p>${p.verdict}</p></div>
-    </div>
-  </div>`;
+  // (1) per-column notes — each sits directly under its capability column
+  const notes=`<tr class="drow drow-notes" hidden>
+    <td class="c-exp"></td><td class="c-rank"></td>
+    <td class="c-name"><span class="dhint">Per-column detail</span></td>
+    <td></td>
+    ${noteTd(p.selfHosted)}${noteTd(p.ghIssues)}${noteTd(p.ghProjects)}${noteTd(p.prs)}${noteTd(p.shell)}${noteTd(p.multi)}${noteTd(p.mobile)}${noteTd(p.desktop)}
+  </tr>`;
+  // (2) free-text summary (no natural column) — agents, deploy, and the bottom line
+  const summary=`<tr class="drow drow-sum" hidden><td colspan="12"><div class="dsum">
+    <div class="dblock"><h4>Agents / models</h4><p>${ab}${p.agents} <span class="cnt">${p.agentsCnt}</span></p></div>
+    <div class="dblock"><h4>Deploy / fleet</h4><p>${p.deploy}</p></div>
+    <div class="dblock wide"><h4>Bottom line — what users say</h4><p>${p.verdict}</p></div>
+  </div></td></tr>`;
+  return notes+summary;
 }
 function render(list){
   const rows=list.map((p,idx)=>{
@@ -414,8 +421,9 @@ function render(list){
       <td>${markSym(p.shell)}</td>
       <td>${markSym(p.multi)}</td>
       <td>${markSym(p.mobile)}</td>
+      <td>${markSym(p.desktop)}</td>
     </tr>
-    <tr class="drow" hidden><td class="c-detail" colspan="11">${detailHTML(p)}</td></tr>`;
+    ${detailRows(p)}`;
   }).join('');
   document.getElementById('rows').innerHTML=rows;
   // card view (tablet / mobile) — collapsible to match the table accordion
@@ -442,12 +450,15 @@ function render(list){
 
 // accordion: click/keyboard a row (or card) to expand its detail; one open at a time
 const rowsEl=document.getElementById('rows');
+function setDetail(tr,show){ // show/hide all consecutive .drow rows after a .prow
+  let n=tr.nextElementSibling;
+  while(n&&n.classList.contains('drow')){n.hidden=!show;n=n.nextElementSibling;}
+}
 function toggleRow(tr){
-  const drow=tr.nextElementSibling; if(!drow||!drow.classList.contains('drow'))return;
+  if(!tr.nextElementSibling||!tr.nextElementSibling.classList.contains('drow'))return;
   const willOpen=!tr.classList.contains('open');
-  rowsEl.querySelectorAll('.prow.open').forEach(r=>{r.classList.remove('open');r.setAttribute('aria-expanded','false');
-    const d=r.nextElementSibling;if(d&&d.classList.contains('drow'))d.hidden=true;});
-  if(willOpen){tr.classList.add('open');tr.setAttribute('aria-expanded','true');drow.hidden=false;}
+  rowsEl.querySelectorAll('.prow.open').forEach(r=>{r.classList.remove('open');r.setAttribute('aria-expanded','false');setDetail(r,false);});
+  if(willOpen){tr.classList.add('open');tr.setAttribute('aria-expanded','true');setDetail(tr,true);}
 }
 rowsEl.addEventListener('click',e=>{ if(e.target.closest('a'))return; const tr=e.target.closest('.prow'); if(tr)toggleRow(tr); });
 rowsEl.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ')return; const tr=e.target.closest('.prow');
