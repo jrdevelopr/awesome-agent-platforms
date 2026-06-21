@@ -63,6 +63,8 @@ EOF
   before=$(grep -c "name:'" "$REPO/site/index.html" 2>/dev/null || echo '?')
   echo "platforms before: $before"
   timeout 1200 claude -p "$PROMPT" --dangerously-skip-permissions 2>&1
+  # refresh live GitHub stars for every repo-backed entry (sorting depends on them)
+  node "$REPO/bin/refresh-stars.js" 2>&1 || true
   # refresh favicons (new platforms get a fetched icon or an SVG fallback) + keep README in sync
   node "$REPO/bin/fetch-icons.js" 2>&1 || true
   node "$REPO/bin/gen-readme.js" 2>&1 || true

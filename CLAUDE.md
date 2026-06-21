@@ -83,3 +83,15 @@ avatar for repo-hosted, site favicon else, SVG lettered-tile fallback). **It nam
 TRUE mime type** (e.g. an SVG served at `/favicon.ico` is saved `.svg`, not `.ico`) so the browser
 never gets a content-type mismatch. All icons are stored locally under `site/icons/` — **never
 hotlinked**. Verify with the Node DOM-stub render (row counts + 0 `undefined`).
+
+## GitHub stars (sorting depends on them)
+The site's star-sort uses each entry's `stars` field, so **every repo-backed entry must carry a
+live count**; closed-source SaaS with no public repo legitimately stays `stars:null` (renders `— ☆`).
+- **`bin/refresh-stars.js`** refreshes all four arrays from the GitHub API (`gh api repos/:owner/:repo
+  --jq .stargazers_count`). It resolves each entry's repo from **(1)** an explicit `"repo":"owner/name"`
+  field, else **(2)** the entry's `github.com` URL. Entries with neither are left **exactly as-is**
+  (existing value preserved — it never nulls a value it can't resolve). Re-runnable any time; the
+  weekly `discover.sh` cron calls it before fetch-icons/gen-readme so stars stay current.
+- **Add a `repo` field** to any open-source entry whose `url` is a marketing homepage (e.g.
+  Ollama→`ollama/ollama`, FLUX→`black-forest-labs/flux`, Qwen→`QwenLM/Qwen3`) so it auto-refreshes.
+  Pick the **canonical flagship repo** for multi-repo orgs (a -6000 swing on re-run = wrong repo).
