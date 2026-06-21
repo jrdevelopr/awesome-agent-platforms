@@ -45,6 +45,19 @@ The page is a **tabbed UI** (`.tabs` bar; `#view-platforms` / `#view-tools` sect
   - Tools render reuses the platform helpers (`starsEl`, `costCell`, `markSym`, `CHEV`, `noteTd`).
   - Hermes Agent stays on the **Platforms** tab (it's a full agent, not an add-on) — not duplicated.
 
+## Providers tab — extra columns
+Each `PROVIDERS` object also carries three compact-badge fields (rendered via the shared `.pill`
+system + `BESTFOR`/`APICOMPAT`/`PRIVACY` maps):
+- **`bestFor`** (array, 2–3 keys ∈ `coding|agents|chat|rag|embeddings|voice|local|enterprise|cheap`) →
+  "Best for" badge cluster. Empty/missing → a single muted `Unknown` pill.
+- **`apiCompat`** (`{v,note}`, `v ∈ openai|native|partial|sdk|local|unknown`) → "API compat" pill;
+  `note` shows in the expanded row + mobile card.
+- **`privacy`** (`{v,note}`, `v ∈ notrain|retention|enterprise|local|unknown`) → "Privacy" pill
+  (conservative; never guess — use `unknown` when unclear).
+- **Responsive priority:** the providers table is replaced by cards <1180px; between 1180–1499px the
+  **Privacy** column hides (`.c-priv`), and <1360px **API compat** also hides (`.c-api`) — **Best for**
+  stays visible longest. Detail-row cells share those classes so they hide in sync (alignment stays 11 cols).
+
 ## Icons
 `bin/fetch-icons.js` fetches favicons for **all three** arrays — `PLATFORMS`, `TOOLS` and `PROVIDERS` (GitHub org/`github.io`
 avatar for repo-hosted, site favicon else, SVG lettered-tile fallback). **It names each file by its
